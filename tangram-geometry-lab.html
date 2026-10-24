@@ -3,12 +3,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Jost:wght@300;400;500&family=Allura&display=swap">
 <style>
-/* Winsome Mundy design system, Tool Page layout: sticky nav, tool header, an 860px column of square panels, footer.
-   Single dark theme by design (the system has no light theme). */
-:root {
+/* Winsome Mundy — generated from tokens.json */
+
+:root, [data-theme="dark"] {
   --ink: #120c2e;
   --ink-glass: #120c2ee0;
   --night: #1b1442;
+  --night-clear: #1b144200;
   --panel: #241a57;
   --line: #3a2e7a;
   --violet: #9b7bff;
@@ -18,171 +19,484 @@
   --violet-tint: #9b7bff24;
   --gold-tint: #d4ae6a1a;
   --alert: #ff9b9b;
-  /* the seven tangram pieces: illustration colors only, tuned to sit on night */
-  --pA: #c46f73; --pB: #6c84d0; --pC: #58a383; --pD: #d08f55;
-  --pE: #a47fd6; --pF: #cdb45c; --pG: #4c9fb3;
-  --f-display: "Poppins", "Avenir Next", "Segoe UI", system-ui, sans-serif;
-  --f-body: "Jost", "Futura", "Avenir", "Segoe UI", system-ui, sans-serif;
-  --f-script: "Allura", "Snell Roundhand", "Brush Script MT", cursive;
+  color-scheme: dark;
+}
+
+:root {
   --gutter: 20px;
   --stack-xs: 8px;
   --stack-sm: 14px;
   --grid-gap: 20px;
   --card-pad-sm: 22px;
   --card-pad: 26px;
-  --rule-mark: 36px;
+  --card-pad-lg: 30px;
+  --column-gap: 48px;
+  --split-gap: 56px;
+  --section-y-sm: 60px;
+  --section-y: 88px;
+  --radius-none: 0;
   --radius-hairline: 2px;
-  color-scheme: dark;
+  --content-max: 1100px;
+  --portrait-max: 320px;
+  --rule-mark: 36px;
+  --hairline: 1px;
+  --bp-phone: 560px;
+  --bp-nav: 760px;
+  --bp-stack: 820px;
+  --bp-grid: 860px;
+  --font-display: "Poppins", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Jost", "Futura", "Avenir", "Segoe UI", system-ui, sans-serif;
+  --font-script: "Allura", "Snell Roundhand", "Brush Script MT", cursive;
 }
 
-* { box-sizing: border-box; }
-html { scroll-padding-top: 72px; }
-body {
-  background: var(--night);
-  color: var(--muted);
-  font-family: var(--f-body);
-  font-weight: 300;
-  font-size: 1.075rem;
-  line-height: 1.65;
-}
-b, strong { color: var(--text); font-weight: 500; }
-em, i { color: var(--text); }
-a { color: var(--violet); text-decoration: none; transition: color .2s; }
-a:hover { color: var(--gold); }
+.display-xl { font-family: var(--font-display); font-size: 3.4rem; line-height: 1.15; font-weight: 700; letter-spacing: 0.01em; }
+.heading-lg { font-family: var(--font-display); font-size: 2.5rem; line-height: 1.15; font-weight: 700; }
+.heading-md { font-family: var(--font-display); font-size: 1.3rem; line-height: 1.15; font-weight: 600; }
+.heading-sm { font-family: var(--font-display); font-size: 1.05rem; line-height: 1.15; font-weight: 600; }
+.stat { font-family: var(--font-display); font-size: 2.8rem; line-height: 1; font-weight: 600; }
+.brand { font-family: var(--font-display); font-size: 0.95rem; line-height: 1.65; font-weight: 600; letter-spacing: 0.08em; }
+.eyebrow { font-family: var(--font-display); font-size: 0.78rem; line-height: 1.65; font-weight: 500; letter-spacing: 0.3em; }
+.credential { font-family: var(--font-display); font-size: 0.85rem; line-height: 1.65; font-weight: 500; letter-spacing: 0.28em; }
+.button { font-family: var(--font-display); font-size: 0.85rem; line-height: 1.65; font-weight: 500; letter-spacing: 0.1em; }
+.date { font-family: var(--font-display); font-size: 0.8rem; line-height: 1.65; font-weight: 500; letter-spacing: 0.16em; }
+.topic { font-family: var(--font-display); font-size: 0.75rem; line-height: 1.65; font-weight: 500; letter-spacing: 0.22em; }
+.body { font-family: var(--font-body); font-size: 1.075rem; line-height: 1.65; font-weight: 300; }
+.body-sm { font-family: var(--font-body); font-size: 0.95rem; line-height: 1.45; font-weight: 300; }
+.nav { font-family: var(--font-body); font-size: 0.82rem; line-height: 1.65; font-weight: 400; letter-spacing: 0.14em; }
+.caption { font-family: var(--font-body); font-size: 0.85rem; line-height: 1.65; font-weight: 300; }
+.script-lg { font-family: var(--font-script); font-size: 3.4rem; line-height: 1.15; font-weight: 400; }
+.script-md { font-family: var(--font-script); font-size: 3rem; line-height: 1.2; font-weight: 400; }
+
+/* Winsome Mundy components. Load after tokens.css. Type sizes come from the type-style classes in tokens.css
+   (.eyebrow, .heading-md, .body ...); this file adds color, case, layout and states. */
+
+.wm-surface { margin: 0; background: var(--night); color: var(--text); font-family: var(--font-body); font-weight: 300; font-size: 1.075rem; line-height: 1.65; -webkit-font-smoothing: antialiased; color-scheme: dark; }
+.wm-surface *, .wm-surface *::before, .wm-surface *::after { box-sizing: border-box; }
+.wm-surface a { color: var(--violet); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.wm-surface a:hover { color: var(--text); }
+.wm-surface :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: var(--radius-hairline); }
+.wm-wrap { max-width: var(--content-max); margin-inline: auto; padding-inline: var(--gutter); }
+.wm-heading { margin: 0; color: var(--text); text-wrap: balance; }
+.wm-heading.heading-lg { font-size: clamp(1.8rem, 3.6vw, 2.5rem); }
+.wm-heading.display-xl { font-size: clamp(2.2rem, 5vw, 3.4rem); }
+.wm-muted { color: var(--muted); }
 
 /* Nav */
-.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: var(--ink-glass); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
-.nav-inner { max-width: 860px; margin-inline: auto; padding-inline: var(--gutter); padding-block: 14px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-.brand { font-family: var(--f-display); font-weight: 600; font-size: 0.95rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); }
-.brand span { color: var(--gold); }
-.nav a.navlink { font-family: var(--f-body); font-weight: 400; font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
-.nav a.navlink:hover { color: var(--gold); }
+.wm-nav { background: var(--ink-glass); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: var(--hairline) solid var(--line); }
+.wm-nav__inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; flex-wrap: wrap; }
+.wm-nav__brand, .wm-surface a.wm-nav__brand { color: var(--text); text-decoration: none; text-transform: uppercase; } /* beats the .wm-surface a link color */
+.wm-nav__brand span { color: var(--gold); }
+.wm-nav__links { list-style: none; display: flex; gap: 22px; margin: 0; padding: 0; flex-wrap: wrap; }
+.wm-nav__links a { color: var(--muted); text-decoration: none; text-transform: uppercase; font-family: var(--font-body); font-size: 0.82rem; letter-spacing: 0.14em; font-weight: 400; }
+.wm-nav__links a:hover { color: var(--gold); }
+.wm-surface a.wm-nav__link { color: var(--muted); text-decoration: none; text-transform: uppercase; font-family: var(--font-body); font-size: 0.82rem; letter-spacing: 0.14em; font-weight: 400; }
+.wm-surface a.wm-nav__link:hover { color: var(--gold); }
+@media (max-width: 760px) {
+  .wm-nav__inner:has(.wm-nav__links) { display: block; min-height: 0; padding-block: 12px 0; }
+  .wm-nav__inner:has(.wm-nav__links) .wm-nav__brand { display: inline-block; }
+  .wm-nav__links { gap: 20px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-width: 100vw; padding-block: 10px 12px; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); }
+  .wm-nav__links::-webkit-scrollbar { display: none; }
+  .wm-nav__links a { white-space: nowrap; font-size: 0.76rem; }
+}
 
-.wrap { max-width: 860px; margin-inline: auto; padding-inline: var(--gutter); padding-block: 48px 64px; display: grid; gap: var(--grid-gap); }
-h1, h2, h3 { font-family: var(--f-display); color: var(--text); line-height: 1.15; text-wrap: balance; margin: 0; }
-h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 700; letter-spacing: 0.01em; }
-h2 { font-size: clamp(1.8rem, 3.6vw, 2.5rem); font-weight: 700; }
-h3 { font-size: 1.05rem; font-weight: 600; }
-p { margin: 0; max-width: 70ch; }
-.eyebrow { display: flex; align-items: center; gap: 12px; font-family: var(--f-display); font-weight: 500; font-size: 0.78rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
-.eyebrow::before { content: ""; flex: none; width: var(--rule-mark); height: 1px; background: var(--gold); }
-.mono, .num { font-family: var(--f-display); font-weight: 500; font-variant-numeric: tabular-nums; color: var(--text); font-size: 0.95em; }
-section { background: var(--panel); border: 1px solid var(--line); padding: var(--card-pad); display: grid; gap: 18px; min-width: 0; }
-section > header { display: grid; gap: var(--stack-sm); }
-ol, ul { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; max-width: 70ch; }
-@media (max-width: 560px) { body { font-size: 1rem; } section { padding: var(--card-pad-sm); } }
+/* Button */
+.wm-btn { display: inline-flex; align-items: center; gap: var(--stack-xs); padding: 12px 20px; border-radius: var(--radius-hairline); border: var(--hairline) solid var(--gold); background: var(--gold); color: var(--ink); text-decoration: none; text-transform: uppercase; cursor: pointer; transition: background .2s, color .2s, border-color .2s; }
+.wm-surface a.wm-btn { color: var(--ink); }
+.wm-btn:hover, .wm-surface a.wm-btn:hover { background: transparent; color: var(--gold); }
+.wm-btn--ghost, .wm-surface a.wm-btn--ghost { background: transparent; color: var(--text); border-color: var(--line); }
+.wm-btn--ghost:hover, .wm-surface a.wm-btn--ghost:hover { border-color: var(--violet); color: var(--violet); }
 
-/* Tool header */
-.hero { display: grid; grid-template-columns: 1fr minmax(0, 250px); gap: 40px; align-items: center; padding-block: 8px 12px; }
-.hero > div { display: grid; gap: var(--stack-sm); }
-.hero .lede { font-size: 1.15rem; }
-.hero .script { font-family: var(--f-script); color: var(--gold); font-size: clamp(2.2rem, 5vw, 3rem); line-height: 1.1; }
-.hero svg { width: 100%; height: auto; }
-.meta { display: flex; flex-wrap: wrap; gap: 6px 24px; font-size: 0.95rem; }
-@media (max-width: 760px) { .hero { grid-template-columns: 1fr; } .hero svg { max-width: 250px; } }
+/* Eyebrow */
+.wm-eyebrow { display: flex; align-items: center; gap: 12px; margin: 0 0 var(--stack-sm); color: var(--gold); text-transform: uppercase; }
+.wm-eyebrow::before { content: ""; width: var(--rule-mark); height: var(--hairline); background: var(--gold); flex: none; }
+.wm-eyebrow__bearing { color: var(--muted); letter-spacing: .12em; font-weight: 400; }
 
-/* Toolbar */
-.toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; padding: 16px var(--card-pad-sm); border: 1px solid var(--line); background: var(--ink); }
+/* Impact stat */
+.wm-impact { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--hairline); background: var(--line); border: var(--hairline) solid var(--line); }
+.wm-impact__cell { background: var(--night); padding: 28px var(--card-pad-sm); min-width: 0; }
+.wm-impact__value { display: block; color: var(--text); font-variant-numeric: tabular-nums; }
+.wm-impact__value.stat { font-size: clamp(2rem, 4vw, 2.8rem); }
+.wm-impact__unit { font-style: normal; color: var(--violet); }
+.wm-impact__caption { display: block; margin-top: 10px; color: var(--muted); }
+@media (max-width: 860px) { .wm-impact { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Win list */
+.wm-wins { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--column-gap); }
+.wm-wins li { position: relative; padding: 20px 0 20px 30px; border-top: var(--hairline) solid var(--line); min-width: 0; }
+.wm-wins li::before { content: ""; position: absolute; left: 4px; top: 30px; width: 9px; height: 9px; background: var(--violet); transform: rotate(45deg); }
+.wm-wins strong { color: var(--text); font-weight: 500; }
+@media (max-width: 760px) { .wm-wins { grid-template-columns: 1fr; } }
+
+/* Cards: competency, teaching, tool */
+.wm-card { background: var(--panel); border: var(--hairline) solid var(--line); border-radius: var(--radius-none); padding: var(--card-pad); min-width: 0; }
+.wm-card__title { margin: 0 0 var(--stack-xs); color: var(--text); }
+.wm-card__text { margin: 0; color: var(--muted); }
+.wm-card__head { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 20px; flex-wrap: wrap; }
+.wm-card__date { color: var(--gold); text-transform: uppercase; font-variant-numeric: tabular-nums; }
+.wm-card__role { margin: var(--stack-xs) 0 0; color: var(--text); }
+.wm-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--grid-gap); }
+.wm-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 900px) { .wm-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .wm-grid--2 { grid-template-columns: 1fr; } }
+.wm-card--competency .wm-card__text { font-size: 0.98rem; }
+.wm-card--teaching { padding: 24px var(--card-pad); }
+.wm-card--teaching .wm-card__title { font-size: 1.1rem; margin: 0; }
+.wm-card--teaching .wm-card__date { font-size: 0.78rem; font-variant-numeric: normal; }
+.wm-card--teaching .wm-card__text { margin-top: var(--stack-xs); }
+@media (max-width: 560px) { .wm-grid { grid-template-columns: 1fr; } .wm-card, .wm-card--teaching { padding: var(--card-pad-sm); } }
+
+.wm-tool { display: flex; flex-direction: column; gap: 12px; padding: var(--card-pad-lg); text-decoration: none; transition: border-color .2s, transform .2s; }
+.wm-surface a.wm-tool { color: var(--text); }
+.wm-surface a.wm-tool:hover { border-color: var(--violet); transform: translateY(-2px); }
+.wm-tool__topic { color: var(--gold); text-transform: uppercase; }
+.wm-tool__url { color: var(--muted); font-size: 0.9rem; overflow-wrap: anywhere; }
+.wm-tool .wm-card__title { margin: 0; }
+.wm-tool__open { margin-top: auto; padding-top: var(--stack-xs); color: var(--violet); text-transform: uppercase; }
+.wm-tool--soon { background: transparent; border-style: dashed; }
+.wm-tool--soon .wm-card__title { color: var(--muted); }
+@media (max-width: 560px) { .wm-tool { padding: var(--card-pad-sm); } }
+
+/* Timeline role */
+.wm-timeline { list-style: none; margin: 0; padding: 0; border-left: var(--hairline) solid var(--line); }
+.wm-role { position: relative; padding: 0 0 52px 36px; }
+.wm-role:last-child { padding-bottom: 0; }
+.wm-role::before { content: ""; position: absolute; left: -7px; top: 8px; width: 13px; height: 13px; border: var(--hairline) solid var(--gold); background: var(--night); transform: rotate(45deg); }
+.wm-role__head { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 24px; flex-wrap: wrap; }
+.wm-role__name { margin: 0; color: var(--text); }
+.wm-role__when { color: var(--gold); text-transform: uppercase; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.wm-role__title { margin: 4px 0 0; color: var(--violet); font-weight: 400; }
+.wm-role__company { margin: 6px 0 0; color: var(--muted); font-size: 0.95rem; font-style: italic; max-width: 70ch; }
+.wm-role__points { margin: var(--stack-sm) 0 0; padding-left: 18px; max-width: 75ch; }
+.wm-role__points li { margin-top: var(--stack-xs); }
+.wm-role__points li::marker { color: var(--gold); }
+.wm-award { display: inline-block; margin-top: var(--stack-sm); padding: 6px 12px; border: var(--hairline) solid var(--line); border-radius: var(--radius-hairline); color: var(--text); font-size: .9rem; }
+.wm-award::before { content: "◆ "; color: var(--gold); }
+@media (max-width: 560px) { .wm-role { padding-left: 26px; } }
+
+/* Credential list */
+.wm-creds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
+.wm-creds__label { margin: 0 0 16px; font-family: var(--font-display); font-size: 0.8rem; font-weight: 500; line-height: 1.15; letter-spacing: 0.26em; color: var(--gold); text-transform: uppercase; }
+.wm-creds ul { list-style: none; margin: 0; padding: 0; }
+.wm-creds li { padding: 12px 0; border-top: var(--hairline) solid var(--line); color: var(--text); }
+.wm-creds small { display: block; color: var(--muted); font-size: .9rem; }
+@media (max-width: 860px) { .wm-creds { grid-template-columns: 1fr; gap: 32px; } }
+
+/* Contact channel */
+.wm-channels { display: grid; gap: var(--stack-sm); }
+.wm-channel { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px var(--card-pad-sm); background: var(--panel); border: var(--hairline) solid var(--line); text-decoration: none; transition: border-color .2s; min-width: 0; }
+.wm-surface a.wm-channel { color: var(--text); }
+.wm-surface a.wm-channel:hover { border-color: var(--violet); color: var(--text); }
+.wm-channel__label { color: var(--gold); font-size: 0.78rem; text-transform: uppercase; }
+.wm-channel__value { font-weight: 400; overflow-wrap: anywhere; text-align: right; }
+@media (max-width: 560px) { .wm-channel { flex-direction: column; align-items: flex-start; gap: 4px; } .wm-channel__value { text-align: left; } }
+
+/* Portrait */
+.wm-portrait { position: relative; margin: 0; max-width: var(--portrait-max); }
+.wm-portrait::after { content: ""; position: absolute; inset: 14px -14px -14px 14px; border: var(--hairline) solid var(--gold); pointer-events: none; }
+.wm-portrait img { position: relative; z-index: 1; display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
+
+/* Script line */
+.wm-script { margin: 0; color: var(--gold); }
+.wm-script.script-lg { font-size: clamp(2.4rem, 5vw, 3.4rem); }
+.wm-script.script-md { font-size: clamp(2rem, 4.4vw, 3rem); }
+.wm-script__note { display: block; margin-top: 18px; font-family: var(--font-body); font-size: 1rem; font-weight: 300; line-height: 1.6; color: var(--muted); }
+
+/* Notice */
+.wm-notice { margin: 0 0 16px; padding: 14px 18px; background: var(--panel); border: var(--hairline) solid var(--gold); color: var(--text); font-size: 0.95rem; }
+.wm-notice strong { font-weight: 500; }
+.wm-notice--alert { border-color: var(--alert); }
+.wm-notice--alert strong { color: var(--alert); }
+
+/* Comparison callout */
+.wm-callout { margin: 0 0 8px; padding: 20px var(--card-pad); background: var(--panel); border: var(--hairline) solid var(--gold); }
+.wm-callout__text { margin: 0; font-size: 1.1rem; color: var(--text); }
+.wm-callout__text strong { color: var(--gold); font-weight: 500; }
+
+/* Form fields */
+.wm-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 24px; }
+.wm-fields--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.wm-label { display: block; margin-bottom: 6px; color: var(--muted); font-size: 0.9rem; }
+.wm-input { width: 100%; padding: 10px 12px; font: 400 1rem/1.4 var(--font-body); color: var(--text); background: var(--night); border: var(--hairline) solid var(--muted); border-radius: var(--radius-hairline); font-variant-numeric: tabular-nums; }
+.wm-input::placeholder { color: var(--muted); opacity: .7; }
+.wm-input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.wm-toggle { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.wm-toggle__option { flex: 1 1 200px; padding: 10px; cursor: pointer; font: 400 0.95rem/1.4 var(--font-body); color: var(--muted); background: transparent; border: var(--hairline) solid var(--muted); border-radius: var(--radius-hairline); }
+.wm-toggle__option[aria-pressed="true"] { color: var(--text); background: var(--violet-tint); border-color: var(--violet); font-weight: 500; }
+.wm-btn--block { display: flex; justify-content: center; width: 100%; margin-top: 20px; }
+@media (max-width: 640px) { .wm-fields, .wm-fields--2 { grid-template-columns: 1fr; } }
+
+/* Calculation explainer */
+.wm-explainer { margin-bottom: 24px; }
+.wm-explainer__toggle { display: block; margin-left: auto; padding: 0; background: none; border: none; cursor: pointer; font: 400 0.85rem/1.6 var(--font-body); color: var(--violet); text-decoration: underline; text-underline-offset: 3px; }
+.wm-explainer__toggle:hover { color: var(--text); }
+.wm-explainer__panel { margin-top: 8px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; padding: 20px var(--card-pad); background: var(--panel); border: var(--hairline) solid var(--line); }
+.wm-explainer__label { margin-bottom: 8px; color: var(--gold); text-transform: uppercase; }
+.wm-explainer__text { margin-bottom: 8px; font-size: 0.9rem; color: var(--text); }
+.wm-explainer__note { margin-top: 8px; font-size: 0.8rem; color: var(--muted); }
+.wm-formula { padding: 10px 12px; background: var(--night); border: var(--hairline) solid var(--line); font: 400 0.85rem/1.8 ui-monospace, Menlo, Consolas, monospace; color: var(--text); }
+.wm-formula__or { color: var(--gold); }
+.wm-calc { font-size: 0.9rem; line-height: 2; font-variant-numeric: tabular-nums; }
+.wm-calc__row { display: flex; justify-content: space-between; gap: 12px; }
+.wm-calc__row span:first-child { color: var(--muted); }
+.wm-calc__row span:last-child { font-weight: 500; }
+.wm-calc__total { margin-top: 4px; padding-top: 6px; border-top: var(--hairline) solid var(--gold); font-weight: 600; }
+.wm-calc__total span, .wm-calc__total span:first-child { color: var(--gold); }
+@media (max-width: 640px) { .wm-explainer__panel { grid-template-columns: 1fr; } }
+
+/* Balance chart */
+.wm-chart { display: block; width: 100%; height: auto; }
+.wm-chart__grid { stroke: var(--line); stroke-width: 1; }
+.wm-chart__axis { fill: var(--muted); font-family: var(--font-body); font-size: 10px; }
+.wm-chart__area { fill: var(--violet-tint); }
+.wm-chart__line { fill: none; stroke: var(--violet); stroke-width: 2; }
+.wm-chart__marker-line { stroke: var(--gold); stroke-width: 1; stroke-dasharray: 3 3; opacity: .7; }
+.wm-chart__marker { fill: var(--gold); stroke: var(--night); stroke-width: 2; }
+.wm-chart__marker-label { fill: var(--gold); font-family: var(--font-display); font-size: 11px; font-weight: 500; }
+.wm-chart__end { fill: var(--violet); stroke: var(--night); stroke-width: 2; }
+.wm-legend { margin-top: 16px; padding-top: 14px; border-top: var(--hairline) solid var(--line); }
+.wm-legend__label { margin: 0 0 10px; color: var(--gold); text-transform: uppercase; }
+.wm-legend__items { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 0.85rem; color: var(--muted); }
+.wm-legend__item { display: flex; align-items: center; gap: 10px; }
+.wm-diamond { flex: none; width: 9px; height: 9px; background: var(--gold); transform: rotate(45deg); }
+.wm-diamond--end { background: var(--violet); }
+.wm-footnote { margin: 12px 0 0; font-size: 0.85rem; color: var(--muted); }
+
+/* Data table */
+.wm-table-scroll { overflow-x: auto; }
+.wm-table { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+.wm-table th { padding: 8px 6px; text-align: right; font-weight: 500; color: var(--gold); border-bottom: var(--hairline) solid var(--gold); font-family: var(--font-display); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.wm-table td { padding: 8px 6px; text-align: right; color: var(--text); border-bottom: var(--hairline) solid var(--line); }
+.wm-table .wm-left { text-align: left; }
+.wm-table td.wm-dim { color: var(--muted); }
+.wm-table td.wm-strong { font-weight: 500; }
+.wm-row--milestone { background: var(--gold-tint); }
+.wm-row--final { background: var(--violet-tint); }
+.wm-pill { margin-left: 6px; padding: 1px 8px; border-radius: var(--radius-hairline); font-size: 0.72rem; font-weight: 500; white-space: nowrap; color: var(--ink); background: var(--gold); }
+.wm-pill--final { background: var(--violet); }
+
+/* Tool page: the frame every student tool shares */
+.wm-tool-page { min-height: 100vh; }
+.wm-wrap--tool { max-width: 860px; }
+.wm-tool-page__main { padding-block: 48px 0; }
+.wm-tool-header { margin-bottom: 32px; }
+.wm-tool-header__desc { margin: 10px 0 0; color: var(--muted); }
+.wm-tool-page .wm-card { margin-bottom: 24px; }
+.wm-tool-page .wm-card__title { margin-bottom: var(--stack-sm); }
+.wm-tool-page .wm-card__head { margin-bottom: var(--stack-sm); }
+.wm-tool-page .wm-card__head .wm-card__title { margin: 0; }
+.wm-tool-footer { margin-top: 48px; padding-block: 24px; border-top: var(--hairline) solid var(--line); background: var(--ink); color: var(--muted); }
+@media (max-width: 560px) { .wm-tool-page { font-size: 1rem; } }
+
+/* Hero: portrait and live headline beside the compass art */
+.wm-hero { position: relative; overflow: hidden; background: var(--night); border-bottom: var(--hairline) solid var(--line); }
+.wm-hero__art img { display: block; }
+.wm-hero__content { position: relative; display: grid; grid-template-columns: 150px minmax(0, 420px); gap: 32px; align-items: center; padding-block: 40px; }
+.wm-hero__portrait { margin-right: 14px; }
+.wm-hero h1.wm-heading { font-size: clamp(2rem, 3.4vw, 2.6rem); }
+@media (min-width: 641px) { .wm-hero h1.wm-heading { white-space: nowrap; } }
+.wm-hero__title { margin: 8px 0 0; color: var(--text); font-size: 1.2rem; }
+.wm-hero__creds { margin: 12px 0 0; color: var(--gold); }
+.wm-hero__tagline { margin: 4px 0 0; color: var(--muted); font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; text-wrap: balance; }
+.wm-hero__actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+@media (min-width: 1000px) {
+  .wm-hero__art { position: absolute; top: 0; right: 0; bottom: 0; }
+  .wm-hero__art img { height: 100%; width: auto; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 15%); mask-image: linear-gradient(90deg, transparent 0, #000 15%); }
+}
+@media (max-width: 999px) {
+  .wm-hero__art { position: relative; display: block; }
+  .wm-hero__art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--night) 0%, var(--night-clear) 55%); }
+  .wm-hero__art img { width: 100%; height: 180px; object-fit: cover; object-position: 100% 88%; }
+  .wm-hero__content { padding-block: 32px 40px; }
+}
+@media (max-width: 640px) {
+  .wm-hero__art img { height: 160px; }
+  .wm-hero__content { grid-template-columns: 1fr; gap: 28px; padding-block: 28px 40px; }
+  .wm-hero__portrait { width: min(170px, 55%); }
+}
+@media (max-width: 560px) { .wm-hero__actions .wm-btn { flex: 1 1 auto; justify-content: center; } }
+
+/* Values strip */
+.wm-values { border-bottom: var(--hairline) solid var(--line); }
+.wm-values__grid { list-style: none; margin-block: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0; padding-block: 28px; }
+.wm-values__grid li { padding: 4px 18px; border-left: var(--hairline) solid var(--line); min-width: 0; }
+.wm-values__grid li:first-child { border-left: 0; padding-left: 0; }
+.wm-values__name { display: flex; align-items: center; gap: 8px; margin: 0 0 6px; font-family: var(--font-display); font-weight: 500; font-size: 0.74rem; line-height: 1.4; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); }
+.wm-values__name::before { content: ""; flex: none; width: 7px; height: 7px; background: var(--gold); transform: rotate(45deg); }
+.wm-values__text { margin: 0; color: var(--muted); font-size: 0.88rem; line-height: 1.45; }
+@media (max-width: 1079px) {
+  .wm-values__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 22px; }
+  .wm-values__grid li:nth-child(3n+1) { border-left: 0; padding-left: 0; }
+}
+@media (max-width: 560px) {
+  .wm-values__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wm-values__grid li:nth-child(3n+1) { border-left: var(--hairline) solid var(--line); padding-left: 18px; }
+  .wm-values__grid li:nth-child(2n+1) { border-left: 0; padding-left: 0; }
+}
+
+/* Role panels: two side-by-side panels, one per role */
+.wm-roles__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--grid-gap); margin-top: 32px; }
+.wm-role-panel { --wm-accent: var(--violet); display: flex; flex-direction: column; gap: 16px; padding: var(--card-pad-lg); background: var(--panel); border: var(--hairline) solid var(--line); min-width: 0; }
+.wm-role-panel--educator { --wm-accent: var(--gold); }
+.wm-role-panel__label { display: flex; align-items: center; gap: 10px; margin: 0; font-family: var(--font-display); font-weight: 500; font-size: 0.78rem; line-height: 1.4; letter-spacing: 0.2em; text-transform: uppercase; color: var(--wm-accent); }
+.wm-role-panel__label::before { content: ""; flex: none; width: 8px; height: 8px; background: var(--wm-accent); transform: rotate(45deg); }
+.wm-role-panel__thesis { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.35rem, 2.4vw, 1.7rem); line-height: 1.2; color: var(--text); text-wrap: balance; }
+.wm-role-panel__body { margin: 0; color: var(--muted); }
+.wm-role-panel__proof { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 4px 0 0; padding-top: 18px; border-top: var(--hairline) solid var(--line); }
+.wm-role-panel__proof div { min-width: 0; }
+.wm-role-panel__proof dt { font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; line-height: 1.1; color: var(--wm-accent); font-variant-numeric: tabular-nums; }
+.wm-role-panel__proof dd { margin: 6px 0 0; color: var(--muted); font-size: 0.86rem; line-height: 1.4; }
+.wm-role-panel .wm-quote { margin-top: 6px; }
+.wm-surface a.wm-role-panel__link { margin-top: auto; padding-top: 4px; font-family: var(--font-display); font-weight: 500; font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; color: var(--wm-accent); }
+.wm-surface a.wm-role-panel__link:hover { color: var(--text); }
+@media (max-width: 900px) { .wm-roles__grid { grid-template-columns: 1fr; } }
+@media (max-width: 560px) {
+  .wm-role-panel { padding: var(--card-pad-sm); }
+  .wm-role-panel__proof { grid-template-columns: 1fr; gap: 12px; }
+  .wm-role-panel__proof div { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 12px; align-items: baseline; }
+  .wm-role-panel__proof dd { margin: 0; }
+}
+
+/* Quote: a real person's words, verbatim, with who they are */
+.wm-quote { position: relative; margin: 0; padding: 20px 0 0 30px; border-top: var(--hairline) solid var(--line); }
+.wm-quote::before { content: "\201C"; position: absolute; left: 0; top: 10px; font-family: var(--font-display); font-weight: 600; font-size: 2.4rem; line-height: 1; color: var(--wm-accent, var(--gold)); }
+.wm-quote blockquote { margin: 0; }
+.wm-quote p { margin: 0; color: var(--text); font-style: italic; font-size: 0.98rem; line-height: 1.6; }
+.wm-quote figcaption { margin-top: 10px; color: var(--muted); font-size: 0.85rem; }
+.wm-quote figcaption::before { content: "— "; }
+
+@media (prefers-reduced-motion: reduce) { .wm-surface * { transition: none !important; } }
+
+
+html, body { margin: 0; background: var(--night); }
+html { scroll-padding-top: 72px; }
+[hidden] { display: none !important; }
+
+/* the seven tangram pieces: illustration colors only, tuned to sit on night */
+:root {
+  --pA: #c46f73; --pB: #6c84d0; --pC: #58a383; --pD: #d08f55;
+  --pE: #a47fd6; --pF: #cdb45c; --pG: #4c9fb3;
+}
+
+/* ---- This tool's adjustments to design-system components ---- */
+.wm-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; }
+.wm-tool-page__main { color: var(--muted); }
+.wm-tool-page__main b, .wm-tool-page__main strong { color: var(--text); font-weight: 500; }
+.wm-tool-page__main em, .wm-tool-page__main i { color: var(--text); }
+.wm-tool-page__main p { margin: 0; max-width: 70ch; }
+.wm-tool-page__main ol, .wm-tool-page__main ul { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; max-width: 70ch; }
+.wm-btn[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); }
+
+/* ---- This tool's own additions ---- */
+.lab-header { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 250px); gap: 40px; align-items: center; }
+.lab-header__text { display: grid; gap: var(--stack-sm); }
+.lab-header__text .wm-eyebrow, .lab-header__text .wm-tool-header__desc { margin: 0; }
+.lab-header__script { font-family: var(--font-script); font-size: clamp(2.2rem, 5vw, 3rem); line-height: 1.1; }
+.lab-header svg { width: 100%; height: auto; }
+.lab-meta { display: flex; flex-wrap: wrap; gap: 6px 24px; font-size: 0.95rem; }
+@media (max-width: 760px) { .lab-header { grid-template-columns: 1fr; } .lab-header svg { max-width: 250px; } }
+
+.lab-section { display: grid; gap: 18px; }
+.lab-section > header { display: grid; gap: var(--stack-sm); }
+.lab-section > header .wm-eyebrow { margin: 0; }
+.mono, .num { font-family: var(--font-display); font-weight: 500; font-variant-numeric: tabular-nums; color: var(--text); font-size: 0.95em; }
+
+/* teacher bar */
+.toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 24px; padding: 16px var(--card-pad-sm); border: var(--hairline) solid var(--line); background: var(--ink); }
 .toolbar p { font-size: 0.95rem; }
-button { font-family: var(--f-display); font-weight: 500; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: var(--radius-hairline); padding: 10px 18px; cursor: pointer; border: 1px solid var(--line); background: transparent; color: var(--text); transition: color .2s, border-color .2s, background-color .2s; }
-button:hover { border-color: var(--violet); color: var(--violet); }
-button.primary { background: var(--gold); border-color: var(--gold); color: var(--ink); }
-button.primary:hover { background: transparent; color: var(--gold); }
-button[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); }
-:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: var(--radius-hairline); }
-@media (max-width: 560px) { .toolbar button { width: 100%; } }
+@media (max-width: 560px) { .toolbar .wm-btn, .checkrow .wm-btn { flex: 1 1 auto; justify-content: center; } }
 
-/* History timeline */
-.timeline { list-style: none; padding: 0; display: grid; gap: 0; max-width: none; }
-.timeline li { display: grid; grid-template-columns: 8.5rem 1fr; gap: 18px; padding-block: 14px; border-top: 1px solid var(--line); }
+/* history timeline */
+.timeline { list-style: none; padding: 0 !important; display: grid; gap: 0 !important; max-width: none !important; }
+.timeline li { display: grid; grid-template-columns: 8.5rem 1fr; gap: 18px; padding-block: 14px; border-top: var(--hairline) solid var(--line); }
 .timeline li:first-child { border-top: 0; padding-top: 4px; }
-.timeline .when { font-family: var(--f-display); font-weight: 500; font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); font-variant-numeric: tabular-nums; padding-top: 4px; }
+.timeline .when { font-family: var(--font-display); font-weight: 500; font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); font-variant-numeric: tabular-nums; padding-top: 4px; }
 @media (max-width: 560px) { .timeline li { grid-template-columns: 1fr; gap: 2px; } }
 
-/* Piece gallery */
+/* piece gallery and diagrams */
 .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--grid-gap); }
-figure { margin: 0; border: 1px solid var(--line); background: var(--night); padding: 16px; display: grid; gap: 10px; align-content: start; min-width: 0; }
-figure.wide { grid-column: 1 / -1; }
-figure .fig { overflow-x: auto; display: flex; justify-content: center; }
-figure svg { max-width: 100%; height: auto; }
-figcaption { display: grid; gap: 4px; }
-figcaption strong { font-family: var(--f-display); font-weight: 600; font-size: 1.05rem; }
-figcaption span { font-size: 0.95rem; line-height: 1.45; }
+.gallery figure { margin: 0; border: var(--hairline) solid var(--line); background: var(--night); padding: 16px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.gallery figure.wide { grid-column: 1 / -1; }
+.gallery .fig { overflow-x: auto; display: flex; justify-content: center; }
+.gallery figure svg { max-width: 100%; height: auto; }
+.gallery figcaption { display: grid; gap: 4px; }
+.gallery figcaption strong { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; }
+.gallery figcaption span { font-size: 0.95rem; line-height: 1.45; }
 .swatch { display: inline-block; width: 0.75em; height: 0.75em; vertical-align: -0.02em; margin-right: 8px; }
-
-svg text { font-family: var(--f-display); fill: var(--text); }
+svg text { font-family: var(--font-display); fill: var(--text); }
 svg .dimtext { fill: var(--muted); font-size: 0.48px; font-weight: 500; }
 svg .dimtext.in { fill: var(--ink); font-weight: 600; }
 svg .dim { stroke: var(--muted); stroke-width: 0.03; fill: none; }
 svg .dash { stroke: var(--ink); stroke-width: 0.04; stroke-dasharray: 0.18 0.12; fill: none; }
 svg .piece { stroke: var(--night); stroke-width: 0.08; stroke-linejoin: round; }
 svg .outline { stroke: var(--text); stroke-width: 0.05; stroke-linejoin: round; }
-svg .label { font-family: var(--f-display); font-weight: 700; font-size: 1px; fill: var(--ink); }
+svg .label { font-family: var(--font-display); font-weight: 700; font-size: 1px; fill: var(--ink); }
 svg .mark { stroke: var(--ink); stroke-width: 0.04; fill: none; }
 
-.callout { background: var(--gold-tint); border: 1px solid var(--line); padding: 12px 16px; font-size: 0.97rem; max-width: none; }
+.callout { background: var(--gold-tint); border: var(--hairline) solid var(--line); padding: 12px 16px; font-size: 0.97rem; max-width: none !important; }
 
-/* Tables */
-.tablewrap { overflow-x: auto; border: 1px solid var(--line); }
-table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 1rem; }
-th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
-td { color: var(--text); }
-thead th { font-family: var(--f-display); font-size: 0.75rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); font-weight: 500; background: var(--ink); }
-tbody tr:last-child td { border-bottom: 0; }
-td.num, th.num { text-align: right; }
-input[type="text"], select {
-  font-family: var(--f-display); font-weight: 500; font-size: 0.95rem; font-variant-numeric: tabular-nums;
+/* answer tables */
+.tablewrap { overflow-x: auto; border: var(--hairline) solid var(--line); }
+.tablewrap table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 1rem; }
+.tablewrap th, .tablewrap td { text-align: left; padding: 10px 14px; border-bottom: var(--hairline) solid var(--line); vertical-align: middle; }
+.tablewrap td { color: var(--text); }
+.tablewrap thead th { font-family: var(--font-display); font-size: 0.75rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); font-weight: 500; background: var(--ink); }
+.tablewrap tbody tr:last-child td { border-bottom: 0; }
+.tablewrap td.num, .tablewrap th.num { text-align: right; }
+.wm-tool-page__main input[type="text"] {
+  font-family: var(--font-display); font-weight: 500; font-size: 0.95rem; font-variant-numeric: tabular-nums;
   color: var(--text); background: var(--ink);
-  border: 1px solid var(--line); border-bottom-color: var(--muted); border-radius: 0;
+  border: var(--hairline) solid var(--line); border-bottom-color: var(--muted); border-radius: 0;
   padding: 7px 10px; width: 7.5rem; max-width: 100%;
 }
-input::placeholder { color: var(--muted); opacity: .7; }
-input.wide { width: 100%; }
-input.right { border-color: var(--violet); background: var(--violet-tint); }
-input.wrong { border-color: var(--alert); color: var(--alert); }
+.wm-tool-page__main input::placeholder { color: var(--muted); opacity: .7; }
+.wm-tool-page__main input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.wm-tool-page__main input.right { border-color: var(--violet); background: var(--violet-tint); }
+.wm-tool-page__main input.wrong { border-color: var(--alert); color: var(--alert); }
 .unit { font-size: 0.9rem; margin-left: 4px; }
 .checkrow { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 .score { font-size: 0.95rem; }
 
-.qs { display: grid; gap: 20px; counter-reset: q; list-style: none; padding: 0; max-width: none; }
+/* numbered questions */
+.qs { display: grid; gap: 20px !important; counter-reset: q; list-style: none; padding: 0 !important; max-width: none !important; }
 .qs > li { counter-increment: q; display: grid; grid-template-columns: 2rem 1fr; gap: 6px 10px; }
-.qs > li::before { content: counter(q, decimal-leading-zero); font-family: var(--f-display); font-weight: 500; font-size: 0.85rem; color: var(--gold); padding-top: 3px; font-variant-numeric: tabular-nums; }
+.qs > li::before { content: counter(q, decimal-leading-zero); font-family: var(--font-display); font-weight: 500; font-size: 0.85rem; color: var(--gold); padding-top: 3px; font-variant-numeric: tabular-nums; }
 .qs > li > div { display: grid; gap: 10px; min-width: 0; }
-.workspace { min-height: 4.5rem; border: 1px dashed var(--line); background: var(--night); padding: 8px 12px; font-size: 0.9rem; }
+.workspace { min-height: 4.5rem; border: var(--hairline) dashed var(--line); background: var(--night); padding: 8px 12px; font-size: 0.9rem; }
 
-/* Answer key */
-.key { background: var(--gold-tint); border: 1px solid var(--line); color: var(--text); padding: 12px 16px; font-size: 0.98rem; display: grid; gap: 6px; }
-.key::before { content: "Answer key"; font-family: var(--f-display); font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500; color: var(--gold); }
-.key p, .key li { max-width: none; }
+/* answer key */
+.key { background: var(--gold-tint); border: var(--hairline) solid var(--line); color: var(--text); padding: 12px 16px; font-size: 0.98rem; display: grid; gap: 6px; }
+.key::before { content: "Answer key"; font-family: var(--font-display); font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500; color: var(--gold); }
+.key p, .key li { max-width: none !important; }
 
+/* go-further ideas */
 .ideas { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--grid-gap); }
-.idea { border: 1px solid var(--line); background: var(--night); padding: 18px; display: grid; gap: var(--stack-xs); align-content: start; }
+.idea { border: var(--hairline) solid var(--line); background: var(--night); padding: 18px; display: grid; gap: var(--stack-xs); align-content: start; }
+.idea h3 { margin: 0; color: var(--text); text-wrap: balance; }
 .idea h3::before { content: "◆"; color: var(--violet); font-size: 0.7em; margin-right: 8px; vertical-align: 0.1em; }
 .idea p { font-size: 0.97rem; }
 
-footer { border-top: 1px solid var(--line); background: var(--ink); }
-footer .foot { max-width: 860px; margin-inline: auto; padding-inline: var(--gutter); padding-block: 28px; font-size: 0.85rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
-
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } html { scroll-behavior: auto; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 </style>
 
-<nav class="nav" aria-label="Site">
-  <div class="nav-inner">
-    <span class="brand">Winsome <span>Mundy</span></span>
-    <a class="navlink" href="https://winsomemundy.com/#tools">Student tools ↗</a>
-  </div>
-</nav>
+<div class="wm-surface">
+<div class="wm-tool-page">
+  <nav class="wm-nav" aria-label="Site">
+    <div class="wm-wrap wm-wrap--tool wm-nav__inner">
+      <a class="wm-nav__brand brand" href="https://winsomemundy.com/">Winsome <span>Mundy</span></a>
+      <a class="wm-nav__link" href="https://winsomemundy.com/#tools">Student tools</a>
+    </div>
+  </nav>
 
-<div class="wrap">
+<main class="wm-wrap wm-wrap--tool wm-tool-page__main">
 
-  <!-- HERO -->
-  <div class="hero">
-    <div>
-      <div class="eyebrow">Geometry · Perimeter, area &amp; similarity</div>
-      <h1>Tangram Geometry Lab</h1>
-      <p class="script">Seven pieces, one square.</p>
-      <p class="lede">Seven flat pieces cut from one 10&nbsp;cm square. You will measure them, compare them, and prove that nothing is lost when you take the square apart.</p>
-      <div class="meta">
+  <!-- HEADER -->
+  <header class="wm-tool-header lab-header">
+    <div class="lab-header__text">
+      <p class="wm-eyebrow eyebrow">Geometry · Perimeter, area &amp; similarity</p>
+      <h1 class="wm-heading heading-lg">Tangram Geometry Lab</h1>
+      <p class="wm-script lab-header__script">Seven pieces, one square.</p>
+      <p class="wm-tool-header__desc">Seven flat pieces cut from one 10&nbsp;cm square. You will measure them, compare them, and prove that nothing is lost when you take the square apart.</p>
+      <div class="lab-meta">
         <span><b>You need:</b> a calculator, a pencil, and a paper tangram if you have one</span>
         <span><b>Round to:</b> 2 decimal places</span>
       </div>
@@ -203,18 +517,18 @@ footer .foot { max-width: 860px; margin-inline: auto; padding-inline: var(--gutt
       <text class="label" x="7.5" y="5.35" text-anchor="middle">F</text>
       <text class="label" x="3.75" y="9.1" text-anchor="middle">G</text>
     </svg>
-  </div>
+  </header>
 
   <div class="toolbar">
     <p>Teachers: the answer key is hidden until you show it. Students can check table answers as they go.</p>
-    <button id="keyToggle" type="button" aria-pressed="false">Show answer key</button>
+    <button class="wm-btn wm-btn--ghost button" id="keyToggle" type="button" aria-pressed="false">Show answer key</button>
   </div>
 
   <!-- HISTORY -->
-  <section id="history">
+  <section class="wm-card lab-section" id="history">
     <header>
-      <div class="eyebrow">Background</div>
-      <h2>A short history of the tangram</h2>
+      <p class="wm-eyebrow eyebrow">Background</p>
+      <h2 class="wm-heading heading-lg">A short history of the tangram</h2>
     </header>
     <p>The tangram is a dissection puzzle: a square cut into seven pieces called <em>tans</em>. The rules are simple. Use all seven pieces, lay them flat, and do not let them overlap. With those rules people have built thousands of silhouettes: animals, people, boats, letters and numbers.</p>
     <ol class="timeline">
@@ -229,10 +543,10 @@ footer .foot { max-width: 860px; margin-inline: auto; padding-inline: var(--gutt
   </section>
 
   <!-- PIECES -->
-  <section id="pieces">
+  <section class="wm-card lab-section" id="pieces">
     <header>
-      <div class="eyebrow">Meet the pieces</div>
-      <h2>The seven tans, with measurements</h2>
+      <p class="wm-eyebrow eyebrow">Meet the pieces</p>
+      <h2 class="wm-heading heading-lg">The seven tans, with measurements</h2>
     </header>
     <p>All figures are drawn at the same scale, so you can compare their sizes directly. Lengths are rounded to two decimal places. Dashed lines show a height (altitude) or diagonal you may find useful. A small square marks a right angle.</p>
 
@@ -355,10 +669,10 @@ footer .foot { max-width: 860px; margin-inline: auto; padding-inline: var(--gutt
   </section>
 
   <!-- PART A -->
-  <section id="partA">
+  <section class="wm-card lab-section" id="partA">
     <header>
-      <div class="eyebrow">Part A</div>
-      <h2>Perimeter and area of each piece</h2>
+      <p class="wm-eyebrow eyebrow">Part A</p>
+      <h2 class="wm-heading heading-lg">Perimeter and area of each piece</h2>
     </header>
     <p>Use the measurements above. Perimeter is the distance around a shape: add all the side lengths. For area, use these formulas:</p>
     <ul>
@@ -380,7 +694,7 @@ footer .foot { max-width: 860px; margin-inline: auto; padding-inline: var(--gutt
         </tbody>
       </table>
     </div>
-    <div class="checkrow"><button class="primary" type="button" data-check="tableA">Check my answers</button><span class="score" id="tableA-score" aria-live="polite"></span></div>
+    <div class="checkrow"><button class="wm-btn button" type="button" data-check="tableA">Check my answers</button><span class="score" id="tableA-score" aria-live="polite"></span></div>
     <p class="callout">Tip: if you square 3.54 you get 12.53, not 12.5, because 3.54 is rounded. Answers within 0.1 count as correct. Using the dashed heights avoids the rounding problem.</p>
     <div class="key" hidden>
       <ul>
@@ -394,10 +708,10 @@ footer .foot { max-width: 860px; margin-inline: auto; padding-inline: var(--gutt
   </section>
 
   <!-- PART B -->
-  <section id="partB">
+  <section class="wm-card lab-section" id="partB">
     <header>
-      <div class="eyebrow">Part B</div>
-      <h2>Congruent and similar figures</h2>
+      <p class="wm-eyebrow eyebrow">Part B</p>
+      <h2 class="wm-heading heading-lg">Congruent and similar figures</h2>
     </header>
     <p><b>Congruent</b> figures have exactly the same shape <em>and</em> size: one fits perfectly on top of the other. <b>Similar</b> figures have the same shape (equal angles, sides in the same ratio) but can be different sizes. Every pair of congruent figures is also similar.</p>
     <ol class="qs">
@@ -418,7 +732,7 @@ footer .foot { max-width: 860px; margin-inline: auto; padding-inline: var(--gutt
           <label for="sf2">Medium → large:</label><input type="text" inputmode="decimal" id="sf2" data-answer="1.41" data-tol="0.02">
           <label for="sf3">Small → large:</label><input type="text" inputmode="decimal" id="sf3" data-answer="2" data-tol="0.02">
         </div>
-        <div class="checkrow"><button type="button" data-check="partB">Check scale factors</button><span class="score" id="partB-score" aria-live="polite"></span></div>
+        <div class="checkrow"><button class="wm-btn wm-btn--ghost button" type="button" data-check="partB">Check scale factors</button><span class="score" id="partB-score" aria-live="polite"></span></div>
         <div class="key" hidden><p>Small → medium: 7.07 ÷ 5 ≈ <b>1.41</b> (exactly √2). Medium → large: 10 ÷ 7.07 ≈ <b>1.41</b> (√2). Small → large: 10 ÷ 5 = <b>2</b>.</p></div>
       </div></li>
       <li><div>
@@ -435,10 +749,10 @@ footer .foot { max-width: 860px; margin-inline: auto; padding-inline: var(--gutt
   </section>
 
   <!-- PART C -->
-  <section id="partC">
+  <section class="wm-card lab-section" id="partC">
     <header>
-      <div class="eyebrow">Part C</div>
-      <h2>The completed square</h2>
+      <p class="wm-eyebrow eyebrow">Part C</p>
+      <h2 class="wm-heading heading-lg">The completed square</h2>
     </header>
     <div class="gallery">
       <figure>
@@ -480,17 +794,17 @@ footer .foot { max-width: 860px; margin-inline: auto; padding-inline: var(--gutt
             <div class="checkrow"><label for="cArea">Area</label><input type="text" inputmode="decimal" id="cArea" data-answer="100"><span class="unit">cm²</span></div>
           </div></li>
         </ol>
-        <div class="checkrow"><button class="primary" type="button" data-check="partC">Check my answers</button><span class="score" id="partC-score" aria-live="polite"></span></div>
+        <div class="checkrow"><button class="wm-btn button" type="button" data-check="partC">Check my answers</button><span class="score" id="partC-score" aria-live="polite"></span></div>
         <div class="key" hidden><p>The top edge is the hypotenuse of large triangle A, so the side is <b>10 cm</b>. (The left side is the hypotenuse of B. The right side is D's hypotenuse plus one leg of C: 5 + 5 = 10.) Perimeter = 4 × 10 = <b>40 cm</b>. Area = 10 × 10 = <b>100 cm²</b>.</p></div>
       </div>
     </div>
   </section>
 
   <!-- PART D -->
-  <section id="partD">
+  <section class="wm-card lab-section" id="partD">
     <header>
-      <div class="eyebrow">Part D</div>
-      <h2>Do the pieces add up?</h2>
+      <p class="wm-eyebrow eyebrow">Part D</p>
+      <h2 class="wm-heading heading-lg">Do the pieces add up?</h2>
     </header>
     <p>When you cut a shape into pieces, no area is created or lost. Show that this is true for the tangram: copy your areas from Part A, add them, and compare the total with the area of the square from Part C.</p>
     <div class="tablewrap">
@@ -508,7 +822,7 @@ footer .foot { max-width: 860px; margin-inline: auto; padding-inline: var(--gutt
         </tbody>
       </table>
     </div>
-    <div class="checkrow"><button class="primary" type="button" data-check="tableD">Check my answers</button><span class="score" id="tableD-score" aria-live="polite"></span></div>
+    <div class="checkrow"><button class="wm-btn button" type="button" data-check="tableD">Check my answers</button><span class="score" id="tableD-score" aria-live="polite"></span></div>
     <p>Finish the statement: <span class="mono">25 + 25 + 12.5 + 6.25 + 6.25 + 12.5 + 12.5 = ____ cm² = area of the square.</span></p>
     <div class="key" hidden>
       <p>25 + 25 + 12.5 + 6.25 + 6.25 + 12.5 + 12.5 = <b>100 cm²</b>, which equals the square's area of 10 × 10 = 100 cm².</p>
@@ -517,66 +831,67 @@ footer .foot { max-width: 860px; margin-inline: auto; padding-inline: var(--gutt
   </section>
 
   <!-- PART E -->
-  <section id="partE">
+  <section class="wm-card lab-section" id="partE">
     <header>
-      <div class="eyebrow">Part E · Go further</div>
-      <h2>More things to notice</h2>
+      <p class="wm-eyebrow eyebrow">Part E · Go further</p>
+      <h2 class="wm-heading heading-lg">More things to notice</h2>
     </header>
     <p>Pick at least two of these. Use a paper tangram if you can.</p>
     <div class="ideas">
       <div class="idea">
-        <h3>Area is kept, perimeter is not</h3>
+        <h3 class="heading-sm">Area is kept, perimeter is not</h3>
         <p>Add up the perimeters of all seven pieces. Compare the total with the square's perimeter of 40 cm. Why is the total so much bigger?</p>
         <div class="key" hidden><p>Total ≈ 2(24.14) + 17.07 + 2(12.07) + 14.14 + 17.07 = <b>120.71 cm</b>, about 3 times 40 cm. Inside edges are shared by two pieces and get counted twice, but they are not on the outside of the square.</p></div>
       </div>
       <div class="idea">
-        <h3>The small triangle as a unit</h3>
+        <h3 class="heading-sm">The small triangle as a unit</h3>
         <p>How many small triangles would cover each piece? How many would cover the whole square?</p>
         <div class="key" hidden><p>Large = 4, medium = 2, square = 2, parallelogram = 2, small = 1. The whole square is 4 + 4 + 2 + 1 + 1 + 2 + 2 = <b>16</b> small triangles, matching 100 ÷ 6.25 = 16.</p></div>
       </div>
       <div class="idea">
-        <h3>Same area, different shapes</h3>
+        <h3 class="heading-sm">Same area, different shapes</h3>
         <p>Build a rectangle, a triangle and a parallelogram using all seven pieces. Each has an area of 100 cm². Do they have the same perimeter?</p>
         <div class="key" hidden><p>No. Shapes with the same area can have very different perimeters. A square has the smallest perimeter of any rectangle with a given area.</p></div>
       </div>
       <div class="idea">
-        <h3>Same perimeter twins</h3>
+        <h3 class="heading-sm">Same perimeter twins</h3>
         <p>Two different pieces have the same area <em>and</em> the same perimeter. Which ones?</p>
         <div class="key" hidden><p>The medium triangle C and the parallelogram G: both 12.5 cm² and 17.07 cm. They are still not congruent.</p></div>
       </div>
       <div class="idea">
-        <h3>Angles in 45° steps</h3>
+        <h3 class="heading-sm">Angles in 45° steps</h3>
         <p>List every angle in all seven pieces. What do you notice? Why does this help the pieces fit together?</p>
         <div class="key" hidden><p>Every angle is 45°, 90° or 135°, all multiples of 45°. Angles that meet at a point must add to 360° (or 180° along a straight edge), and multiples of 45° combine easily to make those totals.</p></div>
       </div>
       <div class="idea">
-        <h3>The piece you must flip</h3>
+        <h3 class="heading-sm">The piece you must flip</h3>
         <p>The parallelogram is the only piece that cannot match its own mirror image by sliding or turning. Try it. Some tangram pictures need it flipped over.</p>
         <div class="key" hidden><p>A parallelogram that is not a rectangle or rhombus has no line of symmetry, so its reflection can only be matched by flipping it over. Every other tan has a line of symmetry.</p></div>
       </div>
       <div class="idea">
-        <h3>Where √2 hides</h3>
+        <h3 class="heading-sm">Where √2 hides</h3>
         <p>Several lengths are multiples of √2, which is irrational. Can a tangram cut from a 10 cm square have every side length be a whole number of centimetres?</p>
         <div class="key" hidden><p>No. In a right isosceles triangle the hypotenuse is always √2 times a leg, so the legs and the hypotenuse can never both be whole numbers. That is why the decimals never quite "come out even."</p></div>
       </div>
       <div class="idea">
-        <h3>The 13 convex shapes</h3>
+        <h3 class="heading-sm">The 13 convex shapes</h3>
         <p>Wang and Hsiung proved only 13 convex shapes can be made from all seven pieces. How many can you find? (Hint: the square, a rectangle, a triangle and a trapezoid are among them.)</p>
         <div class="key" hidden><p>The 13 are: 1 triangle, 6 quadrilaterals, 2 pentagons and 4 hexagons.</p></div>
       </div>
     </div>
   </section>
 
+</main>
+
+  <footer class="wm-tool-footer caption">
+    <div class="wm-wrap wm-wrap--tool">
+      A free student tool by <a href="https://winsomemundy.com/#tools">Winsome Mundy</a>. More tools at winsomemundy.com.
+    </div>
+  </footer>
 </div>
 
-<footer>
-  <div class="foot">
-    <span><a href="https://winsomemundy.com/#tools">A free student tool by Winsome Mundy ↗</a></span>
-    <span>Pieces cut from a 10 cm × 10 cm square · lengths rounded to 0.01 cm</span>
-  </div>
-</footer>
-
 <script>
+document.documentElement.lang = 'en';
 (function () {
   var toggle = document.getElementById('keyToggle');
   toggle.addEventListener('click', function () {
@@ -617,3 +932,4 @@ footer .foot { max-width: 860px; margin-inline: auto; padding-inline: var(--gutt
   });
 })();
 </script>
+</div>
