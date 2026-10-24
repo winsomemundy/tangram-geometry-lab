@@ -1,0 +1,619 @@
+<title>Tangram Geometry Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Jost:wght@300;400;500&family=Allura&display=swap">
+<style>
+/* Winsome Mundy design system, Tool Page layout: sticky nav, tool header, an 860px column of square panels, footer.
+   Single dark theme by design (the system has no light theme). */
+:root {
+  --ink: #120c2e;
+  --ink-glass: #120c2ee0;
+  --night: #1b1442;
+  --panel: #241a57;
+  --line: #3a2e7a;
+  --violet: #9b7bff;
+  --gold: #d4ae6a;
+  --text: #ece8ff;
+  --muted: #b5acd9;
+  --violet-tint: #9b7bff24;
+  --gold-tint: #d4ae6a1a;
+  --alert: #ff9b9b;
+  /* the seven tangram pieces: illustration colors only, tuned to sit on night */
+  --pA: #c46f73; --pB: #6c84d0; --pC: #58a383; --pD: #d08f55;
+  --pE: #a47fd6; --pF: #cdb45c; --pG: #4c9fb3;
+  --f-display: "Poppins", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Jost", "Futura", "Avenir", "Segoe UI", system-ui, sans-serif;
+  --f-script: "Allura", "Snell Roundhand", "Brush Script MT", cursive;
+  --gutter: 20px;
+  --stack-xs: 8px;
+  --stack-sm: 14px;
+  --grid-gap: 20px;
+  --card-pad-sm: 22px;
+  --card-pad: 26px;
+  --rule-mark: 36px;
+  --radius-hairline: 2px;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-padding-top: 72px; }
+body {
+  background: var(--night);
+  color: var(--muted);
+  font-family: var(--f-body);
+  font-weight: 300;
+  font-size: 1.075rem;
+  line-height: 1.65;
+}
+b, strong { color: var(--text); font-weight: 500; }
+em, i { color: var(--text); }
+a { color: var(--violet); text-decoration: none; transition: color .2s; }
+a:hover { color: var(--gold); }
+
+/* Nav */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: var(--ink-glass); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.nav-inner { max-width: 860px; margin-inline: auto; padding-inline: var(--gutter); padding-block: 14px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.brand { font-family: var(--f-display); font-weight: 600; font-size: 0.95rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); }
+.brand span { color: var(--gold); }
+.nav a.navlink { font-family: var(--f-body); font-weight: 400; font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.nav a.navlink:hover { color: var(--gold); }
+
+.wrap { max-width: 860px; margin-inline: auto; padding-inline: var(--gutter); padding-block: 48px 64px; display: grid; gap: var(--grid-gap); }
+h1, h2, h3 { font-family: var(--f-display); color: var(--text); line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 700; letter-spacing: 0.01em; }
+h2 { font-size: clamp(1.8rem, 3.6vw, 2.5rem); font-weight: 700; }
+h3 { font-size: 1.05rem; font-weight: 600; }
+p { margin: 0; max-width: 70ch; }
+.eyebrow { display: flex; align-items: center; gap: 12px; font-family: var(--f-display); font-weight: 500; font-size: 0.78rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
+.eyebrow::before { content: ""; flex: none; width: var(--rule-mark); height: 1px; background: var(--gold); }
+.mono, .num { font-family: var(--f-display); font-weight: 500; font-variant-numeric: tabular-nums; color: var(--text); font-size: 0.95em; }
+section { background: var(--panel); border: 1px solid var(--line); padding: var(--card-pad); display: grid; gap: 18px; min-width: 0; }
+section > header { display: grid; gap: var(--stack-sm); }
+ol, ul { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; max-width: 70ch; }
+@media (max-width: 560px) { body { font-size: 1rem; } section { padding: var(--card-pad-sm); } }
+
+/* Tool header */
+.hero { display: grid; grid-template-columns: 1fr minmax(0, 250px); gap: 40px; align-items: center; padding-block: 8px 12px; }
+.hero > div { display: grid; gap: var(--stack-sm); }
+.hero .lede { font-size: 1.15rem; }
+.hero .script { font-family: var(--f-script); color: var(--gold); font-size: clamp(2.2rem, 5vw, 3rem); line-height: 1.1; }
+.hero svg { width: 100%; height: auto; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 24px; font-size: 0.95rem; }
+@media (max-width: 760px) { .hero { grid-template-columns: 1fr; } .hero svg { max-width: 250px; } }
+
+/* Toolbar */
+.toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; padding: 16px var(--card-pad-sm); border: 1px solid var(--line); background: var(--ink); }
+.toolbar p { font-size: 0.95rem; }
+button { font-family: var(--f-display); font-weight: 500; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: var(--radius-hairline); padding: 10px 18px; cursor: pointer; border: 1px solid var(--line); background: transparent; color: var(--text); transition: color .2s, border-color .2s, background-color .2s; }
+button:hover { border-color: var(--violet); color: var(--violet); }
+button.primary { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+button.primary:hover { background: transparent; color: var(--gold); }
+button[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: var(--radius-hairline); }
+@media (max-width: 560px) { .toolbar button { width: 100%; } }
+
+/* History timeline */
+.timeline { list-style: none; padding: 0; display: grid; gap: 0; max-width: none; }
+.timeline li { display: grid; grid-template-columns: 8.5rem 1fr; gap: 18px; padding-block: 14px; border-top: 1px solid var(--line); }
+.timeline li:first-child { border-top: 0; padding-top: 4px; }
+.timeline .when { font-family: var(--f-display); font-weight: 500; font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); font-variant-numeric: tabular-nums; padding-top: 4px; }
+@media (max-width: 560px) { .timeline li { grid-template-columns: 1fr; gap: 2px; } }
+
+/* Piece gallery */
+.gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--grid-gap); }
+figure { margin: 0; border: 1px solid var(--line); background: var(--night); padding: 16px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+figure.wide { grid-column: 1 / -1; }
+figure .fig { overflow-x: auto; display: flex; justify-content: center; }
+figure svg { max-width: 100%; height: auto; }
+figcaption { display: grid; gap: 4px; }
+figcaption strong { font-family: var(--f-display); font-weight: 600; font-size: 1.05rem; }
+figcaption span { font-size: 0.95rem; line-height: 1.45; }
+.swatch { display: inline-block; width: 0.75em; height: 0.75em; vertical-align: -0.02em; margin-right: 8px; }
+
+svg text { font-family: var(--f-display); fill: var(--text); }
+svg .dimtext { fill: var(--muted); font-size: 0.48px; font-weight: 500; }
+svg .dimtext.in { fill: var(--ink); font-weight: 600; }
+svg .dim { stroke: var(--muted); stroke-width: 0.03; fill: none; }
+svg .dash { stroke: var(--ink); stroke-width: 0.04; stroke-dasharray: 0.18 0.12; fill: none; }
+svg .piece { stroke: var(--night); stroke-width: 0.08; stroke-linejoin: round; }
+svg .outline { stroke: var(--text); stroke-width: 0.05; stroke-linejoin: round; }
+svg .label { font-family: var(--f-display); font-weight: 700; font-size: 1px; fill: var(--ink); }
+svg .mark { stroke: var(--ink); stroke-width: 0.04; fill: none; }
+
+.callout { background: var(--gold-tint); border: 1px solid var(--line); padding: 12px 16px; font-size: 0.97rem; max-width: none; }
+
+/* Tables */
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); }
+table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 1rem; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+td { color: var(--text); }
+thead th { font-family: var(--f-display); font-size: 0.75rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); font-weight: 500; background: var(--ink); }
+tbody tr:last-child td { border-bottom: 0; }
+td.num, th.num { text-align: right; }
+input[type="text"], select {
+  font-family: var(--f-display); font-weight: 500; font-size: 0.95rem; font-variant-numeric: tabular-nums;
+  color: var(--text); background: var(--ink);
+  border: 1px solid var(--line); border-bottom-color: var(--muted); border-radius: 0;
+  padding: 7px 10px; width: 7.5rem; max-width: 100%;
+}
+input::placeholder { color: var(--muted); opacity: .7; }
+input.wide { width: 100%; }
+input.right { border-color: var(--violet); background: var(--violet-tint); }
+input.wrong { border-color: var(--alert); color: var(--alert); }
+.unit { font-size: 0.9rem; margin-left: 4px; }
+.checkrow { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.score { font-size: 0.95rem; }
+
+.qs { display: grid; gap: 20px; counter-reset: q; list-style: none; padding: 0; max-width: none; }
+.qs > li { counter-increment: q; display: grid; grid-template-columns: 2rem 1fr; gap: 6px 10px; }
+.qs > li::before { content: counter(q, decimal-leading-zero); font-family: var(--f-display); font-weight: 500; font-size: 0.85rem; color: var(--gold); padding-top: 3px; font-variant-numeric: tabular-nums; }
+.qs > li > div { display: grid; gap: 10px; min-width: 0; }
+.workspace { min-height: 4.5rem; border: 1px dashed var(--line); background: var(--night); padding: 8px 12px; font-size: 0.9rem; }
+
+/* Answer key */
+.key { background: var(--gold-tint); border: 1px solid var(--line); color: var(--text); padding: 12px 16px; font-size: 0.98rem; display: grid; gap: 6px; }
+.key::before { content: "Answer key"; font-family: var(--f-display); font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500; color: var(--gold); }
+.key p, .key li { max-width: none; }
+
+.ideas { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--grid-gap); }
+.idea { border: 1px solid var(--line); background: var(--night); padding: 18px; display: grid; gap: var(--stack-xs); align-content: start; }
+.idea h3::before { content: "◆"; color: var(--violet); font-size: 0.7em; margin-right: 8px; vertical-align: 0.1em; }
+.idea p { font-size: 0.97rem; }
+
+footer { border-top: 1px solid var(--line); background: var(--ink); }
+footer .foot { max-width: 860px; margin-inline: auto; padding-inline: var(--gutter); padding-block: 28px; font-size: 0.85rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } html { scroll-behavior: auto; } }
+</style>
+
+<nav class="nav" aria-label="Site">
+  <div class="nav-inner">
+    <span class="brand">Winsome <span>Mundy</span></span>
+    <a class="navlink" href="https://winsomemundy.com/#tools">Student tools ↗</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Geometry · Perimeter, area &amp; similarity</div>
+      <h1>Tangram Geometry Lab</h1>
+      <p class="script">Seven pieces, one square.</p>
+      <p class="lede">Seven flat pieces cut from one 10&nbsp;cm square. You will measure them, compare them, and prove that nothing is lost when you take the square apart.</p>
+      <div class="meta">
+        <span><b>You need:</b> a calculator, a pencil, and a paper tangram if you have one</span>
+        <span><b>Round to:</b> 2 decimal places</span>
+      </div>
+    </div>
+    <svg viewBox="-0.3 -0.3 10.6 10.6" role="img" aria-label="The seven tangram pieces assembled into a 10 cm square">
+      <polygon class="piece" style="fill:var(--pA)" points="0,0 10,0 5,5"/>
+      <polygon class="piece" style="fill:var(--pB)" points="0,0 5,5 0,10"/>
+      <polygon class="piece" style="fill:var(--pC)" points="10,5 10,10 5,10"/>
+      <polygon class="piece" style="fill:var(--pD)" points="10,0 10,5 7.5,2.5"/>
+      <polygon class="piece" style="fill:var(--pF)" points="5,5 7.5,2.5 10,5 7.5,7.5"/>
+      <polygon class="piece" style="fill:var(--pE)" points="5,5 7.5,7.5 2.5,7.5"/>
+      <polygon class="piece" style="fill:var(--pG)" points="0,10 2.5,7.5 7.5,7.5 5,10"/>
+      <text class="label" x="5" y="2.2" text-anchor="middle">A</text>
+      <text class="label" x="1.7" y="5.35" text-anchor="middle">B</text>
+      <text class="label" x="8.4" y="8.75" text-anchor="middle">C</text>
+      <text class="label" x="9.1" y="2.85" text-anchor="middle">D</text>
+      <text class="label" x="5" y="7.05" text-anchor="middle">E</text>
+      <text class="label" x="7.5" y="5.35" text-anchor="middle">F</text>
+      <text class="label" x="3.75" y="9.1" text-anchor="middle">G</text>
+    </svg>
+  </div>
+
+  <div class="toolbar">
+    <p>Teachers: the answer key is hidden until you show it. Students can check table answers as they go.</p>
+    <button id="keyToggle" type="button" aria-pressed="false">Show answer key</button>
+  </div>
+
+  <!-- HISTORY -->
+  <section id="history">
+    <header>
+      <div class="eyebrow">Background</div>
+      <h2>A short history of the tangram</h2>
+    </header>
+    <p>The tangram is a dissection puzzle: a square cut into seven pieces called <em>tans</em>. The rules are simple. Use all seven pieces, lay them flat, and do not let them overlap. With those rules people have built thousands of silhouettes: animals, people, boats, letters and numbers.</p>
+    <ol class="timeline">
+      <li><span class="when">Song dynasty</span><span>Historians often trace the idea to <em>yanjitu</em>, sets of banquet tables described by the Song scholar Huang Bosi that could be pushed together into different shapes. A Ming-dynasty version used triangular "butterfly" tables. These were furniture, not puzzles, but they used the same idea of rearranging fixed parts.</span></li>
+      <li><span class="when">c. 1800</span><span>The puzzle itself appears in China, called <em>qīqiǎobǎn</em> (七巧板), "seven boards of skill." The oldest surviving tangram books were printed in the early 1800s, around 1813.</span></li>
+      <li><span class="when">1815–1820</span><span>Trading ships carried tangram sets and books to America and Europe. A "tangram craze" swept Europe around 1817–1818, with puzzle books printed in English, French, German, Italian and Danish. Popular stories claim famous people of the time played it; many of these stories are hard to verify.</span></li>
+      <li><span class="when">Mid-1800s</span><span>The English word <em>tangram</em> appears. Nobody is sure where it comes from. One guess joins "Tang" (an old name for China) with "-gram" (something drawn or written).</span></li>
+      <li><span class="when">1903</span><span>American puzzle maker Sam Loyd published <em>The Eighth Book of Tan</em>, claiming the puzzle was 4,000 years old and invented by a god named Tan. It was a joke. Loyd made the whole history up, but the myth spread for decades.</span></li>
+      <li><span class="when">1942</span><span>Mathematicians Fu Traing Wang and Chuan-Chih Hsiung proved that exactly 13 <em>convex</em> shapes (shapes with no dents) can be made from the seven tans.</span></li>
+    </ol>
+    <p class="callout">Today tangrams are used in classrooms around the world because every piece is built from the same right isosceles triangle. That makes them a perfect tool for studying area, perimeter, angles and similarity.</p>
+  </section>
+
+  <!-- PIECES -->
+  <section id="pieces">
+    <header>
+      <div class="eyebrow">Meet the pieces</div>
+      <h2>The seven tans, with measurements</h2>
+    </header>
+    <p>All figures are drawn at the same scale, so you can compare their sizes directly. Lengths are rounded to two decimal places. Dashed lines show a height (altitude) or diagonal you may find useful. A small square marks a right angle.</p>
+
+    <div class="gallery">
+      <!-- Large triangles -->
+      <figure>
+        <div class="fig">
+          <svg viewBox="-1.4 -1 12.8 7.6" width="333" role="img" aria-label="Large triangle: hypotenuse 10 cm, legs 7.07 cm, height 5 cm">
+            <polygon class="piece" style="fill:var(--pA)" points="0,5 10,5 5,0"/>
+            <polygon class="outline" fill="none" points="0,5 10,5 5,0"/>
+            <polyline class="mark" points="4.65,0.35 5,0.7 5.35,0.35"/>
+            <line class="dash" x1="5" y1="0.7" x2="5" y2="5"/>
+            <text class="dimtext in" x="5.2" y="3.2">h = 5 cm</text>
+            <text class="dimtext" x="5" y="5.75" text-anchor="middle">10 cm</text>
+            <text class="dimtext" x="1.6" y="2.2" text-anchor="end">7.07 cm</text>
+            <text class="dimtext" x="8.4" y="2.2">7.07 cm</text>
+          </svg>
+        </div>
+        <figcaption><strong><span class="swatch" style="background:var(--pA)"></span>A · Large triangle</strong><span>Legs 7.07 cm (exactly 5√2), hypotenuse 10 cm. Angles 45°, 45°, 90°.</span></figcaption>
+      </figure>
+      <figure>
+        <div class="fig">
+          <svg viewBox="-1.4 -1 12.8 7.6" width="333" role="img" aria-label="Large triangle: hypotenuse 10 cm, legs 7.07 cm, height 5 cm">
+            <polygon class="piece" style="fill:var(--pB)" points="0,5 10,5 5,0"/>
+            <polygon class="outline" fill="none" points="0,5 10,5 5,0"/>
+            <polyline class="mark" points="4.65,0.35 5,0.7 5.35,0.35"/>
+            <line class="dash" x1="5" y1="0.7" x2="5" y2="5"/>
+            <text class="dimtext in" x="5.2" y="3.2">h = 5 cm</text>
+            <text class="dimtext" x="5" y="5.75" text-anchor="middle">10 cm</text>
+            <text class="dimtext" x="1.6" y="2.2" text-anchor="end">7.07 cm</text>
+            <text class="dimtext" x="8.4" y="2.2">7.07 cm</text>
+          </svg>
+        </div>
+        <figcaption><strong><span class="swatch" style="background:var(--pB)"></span>B · Large triangle</strong><span>Legs 7.07 cm, hypotenuse 10 cm. Angles 45°, 45°, 90°.</span></figcaption>
+      </figure>
+
+      <!-- Medium triangle -->
+      <figure>
+        <div class="fig">
+          <svg viewBox="-1.9 -0.6 9.6 6.6" width="250" role="img" aria-label="Medium triangle: legs 5 cm, hypotenuse 7.07 cm">
+            <polygon class="piece" style="fill:var(--pC)" points="0,0 0,5 5,5"/>
+            <polygon class="outline" fill="none" points="0,0 0,5 5,5"/>
+            <polyline class="mark" points="0,4.6 0.4,4.6 0.4,5"/>
+            <text class="dimtext" x="-0.2" y="2.65" text-anchor="end">5 cm</text>
+            <text class="dimtext" x="2.5" y="5.7" text-anchor="middle">5 cm</text>
+            <text class="dimtext" x="2.85" y="2.3">7.07 cm</text>
+          </svg>
+        </div>
+        <figcaption><strong><span class="swatch" style="background:var(--pC)"></span>C · Medium triangle</strong><span>Legs 5 cm, hypotenuse 7.07 cm (exactly 5√2). Angles 45°, 45°, 90°.</span></figcaption>
+      </figure>
+
+      <!-- Small triangles -->
+      <figure>
+        <div class="fig">
+          <svg viewBox="-1.6 -0.6 8.2 4" width="213" role="img" aria-label="Small triangle: hypotenuse 5 cm, legs 3.54 cm, height 2.5 cm">
+            <polygon class="piece" style="fill:var(--pD)" points="0,2.5 5,2.5 2.5,0"/>
+            <polygon class="outline" fill="none" points="0,2.5 5,2.5 2.5,0"/>
+            <polyline class="mark" points="2.2,0.3 2.5,0.6 2.8,0.3"/>
+            <line class="dash" x1="2.5" y1="0.6" x2="2.5" y2="2.5"/>
+            <text class="dimtext in" x="2.65" y="1.9">2.5</text>
+            <text class="dimtext" x="2.5" y="3.2" text-anchor="middle">5 cm</text>
+            <text class="dimtext" x="0.95" y="1" text-anchor="end">3.54 cm</text>
+            <text class="dimtext" x="4.05" y="1">3.54 cm</text>
+          </svg>
+        </div>
+        <figcaption><strong><span class="swatch" style="background:var(--pD)"></span>D · Small triangle</strong><span>Legs 3.54 cm (exactly 5√2⁄2), hypotenuse 5 cm, height 2.5 cm.</span></figcaption>
+      </figure>
+      <figure>
+        <div class="fig">
+          <svg viewBox="-1.6 -0.6 8.2 4" width="213" role="img" aria-label="Small triangle: hypotenuse 5 cm, legs 3.54 cm, height 2.5 cm">
+            <polygon class="piece" style="fill:var(--pE)" points="0,2.5 5,2.5 2.5,0"/>
+            <polygon class="outline" fill="none" points="0,2.5 5,2.5 2.5,0"/>
+            <polyline class="mark" points="2.2,0.3 2.5,0.6 2.8,0.3"/>
+            <line class="dash" x1="2.5" y1="0.6" x2="2.5" y2="2.5"/>
+            <text class="dimtext in" x="2.65" y="1.9">2.5</text>
+            <text class="dimtext" x="2.5" y="3.2" text-anchor="middle">5 cm</text>
+            <text class="dimtext" x="0.95" y="1" text-anchor="end">3.54 cm</text>
+            <text class="dimtext" x="4.05" y="1">3.54 cm</text>
+          </svg>
+        </div>
+        <figcaption><strong><span class="swatch" style="background:var(--pE)"></span>E · Small triangle</strong><span>Legs 3.54 cm, hypotenuse 5 cm, height 2.5 cm.</span></figcaption>
+      </figure>
+
+      <!-- Square -->
+      <figure>
+        <div class="fig">
+          <svg viewBox="-2.4 -0.6 7.9 5.1" width="205" role="img" aria-label="Square: sides 3.54 cm, diagonal 5 cm">
+            <rect class="piece" style="fill:var(--pF)" x="0" y="0" width="3.536" height="3.536"/>
+            <rect class="outline" fill="none" x="0" y="0" width="3.536" height="3.536"/>
+            <line class="dash" x1="0" y1="3.536" x2="3.536" y2="0"/>
+            <text class="dimtext in" x="1.95" y="1.55">d = 5</text>
+            <text class="dimtext" x="1.768" y="4.2" text-anchor="middle">3.54 cm</text>
+            <text class="dimtext" x="-0.2" y="1.9" text-anchor="end">3.54 cm</text>
+            <polyline class="mark" points="0,3.136 0.4,3.136 0.4,3.536"/>
+          </svg>
+        </div>
+        <figcaption><strong><span class="swatch" style="background:var(--pF)"></span>F · Square</strong><span>All sides 3.54 cm (exactly 5√2⁄2). Diagonal 5 cm. Four 90° angles.</span></figcaption>
+      </figure>
+
+      <!-- Parallelogram -->
+      <figure class="wide">
+        <div class="fig">
+          <svg viewBox="-1.6 -0.9 10.8 4.2" width="281" role="img" aria-label="Parallelogram: long sides 5 cm, short sides 3.54 cm, height 2.5 cm, angles 45 and 135 degrees">
+            <polygon class="piece" style="fill:var(--pG)" points="0,2.5 5,2.5 7.5,0 2.5,0"/>
+            <polygon class="outline" fill="none" points="0,2.5 5,2.5 7.5,0 2.5,0"/>
+            <line class="dash" x1="2.5" y1="0" x2="2.5" y2="2.5"/>
+            <polyline class="mark" points="2.5,2.15 2.85,2.15 2.85,2.5"/>
+            <text class="dimtext in" x="2.65" y="1.4">h = 2.5 cm</text>
+            <text class="dimtext" x="2.5" y="3.15" text-anchor="middle">5 cm</text>
+            <text class="dimtext" x="5" y="-0.25" text-anchor="middle">5 cm</text>
+            <text class="dimtext" x="0.95" y="1" text-anchor="end">3.54 cm</text>
+            <text class="dimtext" x="6.55" y="1.95">3.54 cm</text>
+            <text class="dimtext" x="0.55" y="2.35" style="font-size:.38px">45°</text>
+            <text class="dimtext" x="4.35" y="2.35" style="font-size:.38px">135°</text>
+          </svg>
+        </div>
+        <figcaption><strong><span class="swatch" style="background:var(--pG)"></span>G · Parallelogram</strong><span>Long sides 5 cm, short sides 3.54 cm, height 2.5 cm (measured to the 5 cm base). Angles 45°, 135°, 45°, 135°.</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- PART A -->
+  <section id="partA">
+    <header>
+      <div class="eyebrow">Part A</div>
+      <h2>Perimeter and area of each piece</h2>
+    </header>
+    <p>Use the measurements above. Perimeter is the distance around a shape: add all the side lengths. For area, use these formulas:</p>
+    <ul>
+      <li>Triangle: <span class="mono">A = ½ × base × height</span>. In a right triangle, the two legs can be the base and height.</li>
+      <li>Square: <span class="mono">A = side × side</span></li>
+      <li>Parallelogram: <span class="mono">A = base × height</span> (the height is perpendicular to the base, not the slanted side)</li>
+    </ul>
+    <div class="tablewrap">
+      <table id="tableA">
+        <thead><tr><th>Piece</th><th>Shape</th><th>Perimeter (cm)</th><th>Area (cm²)</th></tr></thead>
+        <tbody>
+          <tr><td><span class="swatch" style="background:var(--pA)"></span><b>A</b></td><td>Large triangle</td><td><input type="text" inputmode="decimal" id="pA" data-answer="24.14" aria-label="Perimeter of A"></td><td><input type="text" inputmode="decimal" id="aA" data-answer="25" aria-label="Area of A"></td></tr>
+          <tr><td><span class="swatch" style="background:var(--pB)"></span><b>B</b></td><td>Large triangle</td><td><input type="text" inputmode="decimal" id="pB" data-answer="24.14" aria-label="Perimeter of B"></td><td><input type="text" inputmode="decimal" id="aB" data-answer="25" aria-label="Area of B"></td></tr>
+          <tr><td><span class="swatch" style="background:var(--pC)"></span><b>C</b></td><td>Medium triangle</td><td><input type="text" inputmode="decimal" id="pC" data-answer="17.07" aria-label="Perimeter of C"></td><td><input type="text" inputmode="decimal" id="aC" data-answer="12.5" aria-label="Area of C"></td></tr>
+          <tr><td><span class="swatch" style="background:var(--pD)"></span><b>D</b></td><td>Small triangle</td><td><input type="text" inputmode="decimal" id="pD" data-answer="12.07" aria-label="Perimeter of D"></td><td><input type="text" inputmode="decimal" id="aD" data-answer="6.25" aria-label="Area of D"></td></tr>
+          <tr><td><span class="swatch" style="background:var(--pE)"></span><b>E</b></td><td>Small triangle</td><td><input type="text" inputmode="decimal" id="pE" data-answer="12.07" aria-label="Perimeter of E"></td><td><input type="text" inputmode="decimal" id="aE" data-answer="6.25" aria-label="Area of E"></td></tr>
+          <tr><td><span class="swatch" style="background:var(--pF)"></span><b>F</b></td><td>Square</td><td><input type="text" inputmode="decimal" id="pF" data-answer="14.14" aria-label="Perimeter of F"></td><td><input type="text" inputmode="decimal" id="aF" data-answer="12.5" aria-label="Area of F"></td></tr>
+          <tr><td><span class="swatch" style="background:var(--pG)"></span><b>G</b></td><td>Parallelogram</td><td><input type="text" inputmode="decimal" id="pG" data-answer="17.07" aria-label="Perimeter of G"></td><td><input type="text" inputmode="decimal" id="aG" data-answer="12.5" aria-label="Area of G"></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="checkrow"><button class="primary" type="button" data-check="tableA">Check my answers</button><span class="score" id="tableA-score" aria-live="polite"></span></div>
+    <p class="callout">Tip: if you square 3.54 you get 12.53, not 12.5, because 3.54 is rounded. Answers within 0.1 count as correct. Using the dashed heights avoids the rounding problem.</p>
+    <div class="key" hidden>
+      <ul>
+        <li><b>A, B:</b> P = 7.07 + 7.07 + 10 = <b>24.14 cm</b> (exactly 10 + 10√2). Area = ½ × 10 × 5 = <b>25 cm²</b>.</li>
+        <li><b>C:</b> P = 5 + 5 + 7.07 = <b>17.07 cm</b> (10 + 5√2). Area = ½ × 5 × 5 = <b>12.5 cm²</b>.</li>
+        <li><b>D, E:</b> P = 3.54 + 3.54 + 5 = <b>12.07 cm</b> (5 + 5√2). Area = ½ × 5 × 2.5 = <b>6.25 cm²</b>.</li>
+        <li><b>F:</b> P = 4 × 3.54 = <b>14.14 cm</b> (10√2). Area = 3.54² ≈ <b>12.5 cm²</b> (exactly (5√2⁄2)² = 50⁄4 = 12.5, or ½ × diagonal² = ½ × 25).</li>
+        <li><b>G:</b> P = 5 + 3.54 + 5 + 3.54 = <b>17.07 cm</b> (10 + 5√2). Area = 5 × 2.5 = <b>12.5 cm²</b>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PART B -->
+  <section id="partB">
+    <header>
+      <div class="eyebrow">Part B</div>
+      <h2>Congruent and similar figures</h2>
+    </header>
+    <p><b>Congruent</b> figures have exactly the same shape <em>and</em> size: one fits perfectly on top of the other. <b>Similar</b> figures have the same shape (equal angles, sides in the same ratio) but can be different sizes. Every pair of congruent figures is also similar.</p>
+    <ol class="qs">
+      <li><div>
+        <p>Which pairs of pieces are congruent? Explain how you know.</p>
+        <div class="workspace">Write your answer here, or on paper.</div>
+        <div class="key" hidden><p>A and B are congruent (legs 7.07, hypotenuse 10). D and E are congruent (legs 3.54, hypotenuse 5). These are the only congruent pairs.</p></div>
+      </div></li>
+      <li><div>
+        <p>Which pieces are similar to each other? List every group.</p>
+        <div class="workspace"></div>
+        <div class="key" hidden><p>All five triangles (A, B, C, D, E) are similar. Each is a right isosceles triangle with angles 45°, 45°, 90°. The square F and the parallelogram G are not similar to any other piece.</p></div>
+      </div></li>
+      <li><div>
+        <p>Find the <b>scale factor</b> from a small triangle to the medium triangle, and from the medium triangle to a large triangle. (Divide matching sides, for example hypotenuse ÷ hypotenuse.)</p>
+        <div class="checkrow">
+          <label for="sf1">Small → medium:</label><input type="text" inputmode="decimal" id="sf1" data-answer="1.41" data-tol="0.02">
+          <label for="sf2">Medium → large:</label><input type="text" inputmode="decimal" id="sf2" data-answer="1.41" data-tol="0.02">
+          <label for="sf3">Small → large:</label><input type="text" inputmode="decimal" id="sf3" data-answer="2" data-tol="0.02">
+        </div>
+        <div class="checkrow"><button type="button" data-check="partB">Check scale factors</button><span class="score" id="partB-score" aria-live="polite"></span></div>
+        <div class="key" hidden><p>Small → medium: 7.07 ÷ 5 ≈ <b>1.41</b> (exactly √2). Medium → large: 10 ÷ 7.07 ≈ <b>1.41</b> (√2). Small → large: 10 ÷ 5 = <b>2</b>.</p></div>
+      </div></li>
+      <li><div>
+        <p>Compare the areas of the small, medium and large triangles. When the side lengths are multiplied by the scale factor <i>k</i>, what happens to the area?</p>
+        <div class="workspace"></div>
+        <div class="key" hidden><p>Areas are 6.25, 12.5 and 25 cm², a ratio of 1 : 2 : 4. Each time the sides grow by √2, the area doubles, because the area is multiplied by <i>k</i>² = (√2)² = 2. From small to large, <i>k</i> = 2, so the area is multiplied by 2² = 4.</p></div>
+      </div></li>
+      <li><div>
+        <p>The medium triangle C, the square F and the parallelogram G all have the same area. Are any of them congruent? Are any of them similar? Explain.</p>
+        <div class="workspace"></div>
+        <div class="key" hidden><p>No. They have equal area but different shapes and different angles (a triangle, a square and a parallelogram), so they are neither congruent nor similar. Equal area does not mean congruent.</p></div>
+      </div></li>
+    </ol>
+  </section>
+
+  <!-- PART C -->
+  <section id="partC">
+    <header>
+      <div class="eyebrow">Part C</div>
+      <h2>The completed square</h2>
+    </header>
+    <div class="gallery">
+      <figure>
+        <div class="fig">
+          <svg viewBox="-1.6 -0.4 12.2 11.8" width="320" role="img" aria-label="Assembled tangram square, 10 cm by 10 cm">
+            <polygon class="piece" style="fill:var(--pA)" points="0,0 10,0 5,5"/>
+            <polygon class="piece" style="fill:var(--pB)" points="0,0 5,5 0,10"/>
+            <polygon class="piece" style="fill:var(--pC)" points="10,5 10,10 5,10"/>
+            <polygon class="piece" style="fill:var(--pD)" points="10,0 10,5 7.5,2.5"/>
+            <polygon class="piece" style="fill:var(--pF)" points="5,5 7.5,2.5 10,5 7.5,7.5"/>
+            <polygon class="piece" style="fill:var(--pE)" points="5,5 7.5,7.5 2.5,7.5"/>
+            <polygon class="piece" style="fill:var(--pG)" points="0,10 2.5,7.5 7.5,7.5 5,10"/>
+            <rect class="outline" fill="none" x="0" y="0" width="10" height="10"/>
+            <text class="label" x="5" y="2.2" text-anchor="middle">A</text>
+            <text class="label" x="1.7" y="5.35" text-anchor="middle">B</text>
+            <text class="label" x="8.4" y="8.75" text-anchor="middle">C</text>
+            <text class="label" x="9.1" y="2.85" text-anchor="middle">D</text>
+            <text class="label" x="5" y="7.05" text-anchor="middle">E</text>
+            <text class="label" x="7.5" y="5.35" text-anchor="middle">F</text>
+            <text class="label" x="3.75" y="9.1" text-anchor="middle">G</text>
+            <text class="dimtext" x="5" y="10.9" text-anchor="middle">side = ?</text>
+            <text class="dimtext" x="-0.25" y="5.2" text-anchor="end">side = ?</text>
+          </svg>
+        </div>
+        <figcaption><strong>The seven pieces assembled</strong><span>Look at which edges lie along the outside of the square.</span></figcaption>
+      </figure>
+      <div style="display:grid;gap:14px;align-content:start;min-width:0">
+        <ol class="qs">
+          <li><div>
+            <p>Which piece edges make up the top side of the square? Use them to find the side length.</p>
+            <div class="checkrow"><label for="cSide">Side length</label><input type="text" inputmode="decimal" id="cSide" data-answer="10"><span class="unit">cm</span></div>
+          </div></li>
+          <li><div>
+            <p>Find the perimeter of the square.</p>
+            <div class="checkrow"><label for="cPer">Perimeter</label><input type="text" inputmode="decimal" id="cPer" data-answer="40"><span class="unit">cm</span></div>
+          </div></li>
+          <li><div>
+            <p>Find the area of the square.</p>
+            <div class="checkrow"><label for="cArea">Area</label><input type="text" inputmode="decimal" id="cArea" data-answer="100"><span class="unit">cm²</span></div>
+          </div></li>
+        </ol>
+        <div class="checkrow"><button class="primary" type="button" data-check="partC">Check my answers</button><span class="score" id="partC-score" aria-live="polite"></span></div>
+        <div class="key" hidden><p>The top edge is the hypotenuse of large triangle A, so the side is <b>10 cm</b>. (The left side is the hypotenuse of B. The right side is D's hypotenuse plus one leg of C: 5 + 5 = 10.) Perimeter = 4 × 10 = <b>40 cm</b>. Area = 10 × 10 = <b>100 cm²</b>.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PART D -->
+  <section id="partD">
+    <header>
+      <div class="eyebrow">Part D</div>
+      <h2>Do the pieces add up?</h2>
+    </header>
+    <p>When you cut a shape into pieces, no area is created or lost. Show that this is true for the tangram: copy your areas from Part A, add them, and compare the total with the area of the square from Part C.</p>
+    <div class="tablewrap">
+      <table id="tableD">
+        <thead><tr><th>Piece</th><th class="num">Area (cm²)</th><th>Fraction of the square</th></tr></thead>
+        <tbody>
+          <tr><td>A · Large triangle</td><td class="num"><input type="text" inputmode="decimal" id="dA" data-answer="25" aria-label="Area of A"></td><td><input type="text" id="fA" data-frac="0.25" aria-label="Fraction for A" placeholder="e.g. 1/4"></td></tr>
+          <tr><td>B · Large triangle</td><td class="num"><input type="text" inputmode="decimal" id="dB" data-answer="25" aria-label="Area of B"></td><td><input type="text" id="fB" data-frac="0.25" aria-label="Fraction for B"></td></tr>
+          <tr><td>C · Medium triangle</td><td class="num"><input type="text" inputmode="decimal" id="dC" data-answer="12.5" aria-label="Area of C"></td><td><input type="text" id="fC" data-frac="0.125" aria-label="Fraction for C"></td></tr>
+          <tr><td>D · Small triangle</td><td class="num"><input type="text" inputmode="decimal" id="dD" data-answer="6.25" aria-label="Area of D"></td><td><input type="text" id="fD" data-frac="0.0625" aria-label="Fraction for D"></td></tr>
+          <tr><td>E · Small triangle</td><td class="num"><input type="text" inputmode="decimal" id="dE" data-answer="6.25" aria-label="Area of E"></td><td><input type="text" id="fE" data-frac="0.0625" aria-label="Fraction for E"></td></tr>
+          <tr><td>F · Square</td><td class="num"><input type="text" inputmode="decimal" id="dF" data-answer="12.5" aria-label="Area of F"></td><td><input type="text" id="fF" data-frac="0.125" aria-label="Fraction for F"></td></tr>
+          <tr><td>G · Parallelogram</td><td class="num"><input type="text" inputmode="decimal" id="dG" data-answer="12.5" aria-label="Area of G"></td><td><input type="text" id="fG" data-frac="0.125" aria-label="Fraction for G"></td></tr>
+          <tr><td><b>Total of the seven pieces</b></td><td class="num"><input type="text" inputmode="decimal" id="dSum" data-answer="100" aria-label="Total area"></td><td><input type="text" id="fSum" data-frac="1" aria-label="Total fraction"></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="checkrow"><button class="primary" type="button" data-check="tableD">Check my answers</button><span class="score" id="tableD-score" aria-live="polite"></span></div>
+    <p>Finish the statement: <span class="mono">25 + 25 + 12.5 + 6.25 + 6.25 + 12.5 + 12.5 = ____ cm² = area of the square.</span></p>
+    <div class="key" hidden>
+      <p>25 + 25 + 12.5 + 6.25 + 6.25 + 12.5 + 12.5 = <b>100 cm²</b>, which equals the square's area of 10 × 10 = 100 cm².</p>
+      <p>Fractions: A and B are ¼ each; C, F and G are ⅛ each; D and E are <sup>1</sup>⁄<sub>16</sub> each. ¼ + ¼ + ⅛ + ⅛ + ⅛ + <sup>1</sup>⁄<sub>16</sub> + <sup>1</sup>⁄<sub>16</sub> = <sup>16</sup>⁄<sub>16</sub> = 1.</p>
+    </div>
+  </section>
+
+  <!-- PART E -->
+  <section id="partE">
+    <header>
+      <div class="eyebrow">Part E · Go further</div>
+      <h2>More things to notice</h2>
+    </header>
+    <p>Pick at least two of these. Use a paper tangram if you can.</p>
+    <div class="ideas">
+      <div class="idea">
+        <h3>Area is kept, perimeter is not</h3>
+        <p>Add up the perimeters of all seven pieces. Compare the total with the square's perimeter of 40 cm. Why is the total so much bigger?</p>
+        <div class="key" hidden><p>Total ≈ 2(24.14) + 17.07 + 2(12.07) + 14.14 + 17.07 = <b>120.71 cm</b>, about 3 times 40 cm. Inside edges are shared by two pieces and get counted twice, but they are not on the outside of the square.</p></div>
+      </div>
+      <div class="idea">
+        <h3>The small triangle as a unit</h3>
+        <p>How many small triangles would cover each piece? How many would cover the whole square?</p>
+        <div class="key" hidden><p>Large = 4, medium = 2, square = 2, parallelogram = 2, small = 1. The whole square is 4 + 4 + 2 + 1 + 1 + 2 + 2 = <b>16</b> small triangles, matching 100 ÷ 6.25 = 16.</p></div>
+      </div>
+      <div class="idea">
+        <h3>Same area, different shapes</h3>
+        <p>Build a rectangle, a triangle and a parallelogram using all seven pieces. Each has an area of 100 cm². Do they have the same perimeter?</p>
+        <div class="key" hidden><p>No. Shapes with the same area can have very different perimeters. A square has the smallest perimeter of any rectangle with a given area.</p></div>
+      </div>
+      <div class="idea">
+        <h3>Same perimeter twins</h3>
+        <p>Two different pieces have the same area <em>and</em> the same perimeter. Which ones?</p>
+        <div class="key" hidden><p>The medium triangle C and the parallelogram G: both 12.5 cm² and 17.07 cm. They are still not congruent.</p></div>
+      </div>
+      <div class="idea">
+        <h3>Angles in 45° steps</h3>
+        <p>List every angle in all seven pieces. What do you notice? Why does this help the pieces fit together?</p>
+        <div class="key" hidden><p>Every angle is 45°, 90° or 135°, all multiples of 45°. Angles that meet at a point must add to 360° (or 180° along a straight edge), and multiples of 45° combine easily to make those totals.</p></div>
+      </div>
+      <div class="idea">
+        <h3>The piece you must flip</h3>
+        <p>The parallelogram is the only piece that cannot match its own mirror image by sliding or turning. Try it. Some tangram pictures need it flipped over.</p>
+        <div class="key" hidden><p>A parallelogram that is not a rectangle or rhombus has no line of symmetry, so its reflection can only be matched by flipping it over. Every other tan has a line of symmetry.</p></div>
+      </div>
+      <div class="idea">
+        <h3>Where √2 hides</h3>
+        <p>Several lengths are multiples of √2, which is irrational. Can a tangram cut from a 10 cm square have every side length be a whole number of centimetres?</p>
+        <div class="key" hidden><p>No. In a right isosceles triangle the hypotenuse is always √2 times a leg, so the legs and the hypotenuse can never both be whole numbers. That is why the decimals never quite "come out even."</p></div>
+      </div>
+      <div class="idea">
+        <h3>The 13 convex shapes</h3>
+        <p>Wang and Hsiung proved only 13 convex shapes can be made from all seven pieces. How many can you find? (Hint: the square, a rectangle, a triangle and a trapezoid are among them.)</p>
+        <div class="key" hidden><p>The 13 are: 1 triangle, 6 quadrilaterals, 2 pentagons and 4 hexagons.</p></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="foot">
+    <span><a href="https://winsomemundy.com/#tools">A free student tool by Winsome Mundy ↗</a></span>
+    <span>Pieces cut from a 10 cm × 10 cm square · lengths rounded to 0.01 cm</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('keyToggle');
+  toggle.addEventListener('click', function () {
+    var on = toggle.getAttribute('aria-pressed') !== 'true';
+    toggle.setAttribute('aria-pressed', on ? 'true' : 'false');
+    toggle.textContent = on ? 'Hide answer key' : 'Show answer key';
+    document.querySelectorAll('.key').forEach(function (k) { k.hidden = !on; });
+  });
+
+  function parseNum(s) {
+    s = (s || '').trim().replace(',', '.').replace(/\s/g, '');
+    if (!s) return NaN;
+    var m = s.match(/^(-?\d*\.?\d+)\/(\d*\.?\d+)$/);
+    if (m) return parseFloat(m[1]) / parseFloat(m[2]);
+    return Number(s);
+  }
+
+  document.querySelectorAll('[data-check]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var scope = document.getElementById(btn.dataset.check);
+      var inputs = scope.querySelectorAll('input[data-answer], input[data-frac]');
+      var right = 0, filled = 0;
+      inputs.forEach(function (inp) {
+        inp.classList.remove('right', 'wrong');
+        var v = parseNum(inp.value);
+        if (isNaN(v)) return;
+        filled++;
+        var ok;
+        if (inp.dataset.frac) ok = Math.abs(v - parseFloat(inp.dataset.frac)) < 0.002;
+        else ok = Math.abs(v - parseFloat(inp.dataset.answer)) <= parseFloat(inp.dataset.tol || '0.1');
+        inp.classList.add(ok ? 'right' : 'wrong');
+        if (ok) right++;
+      });
+      document.getElementById(btn.dataset.check + '-score').textContent =
+        filled === 0 ? 'Fill in some answers first.' :
+        right + ' of ' + inputs.length + ' correct' + (filled < inputs.length ? ' (' + (inputs.length - filled) + ' blank)' : '') + '.';
+    });
+  });
+})();
+</script>

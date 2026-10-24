@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tangram Geometry Lab – Printable Worksheet</title>
+<style>
+@page {
+  size: Letter; margin: 14mm 15mm 16mm 15mm;
+  @bottom-center {
+    content: "Page " counter(page) " of " counter(pages);
+    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 8.5pt; color: #555; vertical-align: middle;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin: 0; font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 10.5pt; line-height: 1.42; color: #111; }
+h1, h2, h3 { font-family: Rockwell, "Roboto Slab", Georgia, serif; margin: 0; line-height: 1.15; }
+h1 { font-size: 26pt; }
+h2 { font-size: 17pt; margin-bottom: 2mm; }
+h3 { font-size: 11.5pt; }
+p { margin: 0 0 2.2mm; }
+ul, ol { margin: 0 0 2.5mm; padding-left: 5.5mm; }
+li { margin-bottom: 1.2mm; }
+.page { page-break-after: always; break-after: page; }
+.page:last-child { page-break-after: auto; break-after: auto; }
+.eyebrow { font-size: 8pt; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; color: #444; }
+.runhead { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1.2pt solid #111; padding-bottom: 1.5mm; margin-bottom: 4mm; font-size: 8.5pt; }
+.runhead b { font-family: Rockwell, Georgia, serif; font-size: 10pt; }
+.nameline { display: grid; grid-template-columns: 2.2fr 1fr 1fr; gap: 6mm; margin-bottom: 6mm; font-size: 10pt; }
+.nameline span { border-bottom: 0.8pt solid #111; padding-bottom: 1mm; }
+.mono { font-family: Menlo, "Courier New", monospace; font-size: 9.5pt; }
+.box { border: 0.8pt solid #111; border-radius: 1.5mm; padding: 3mm 4mm; }
+.note { border-left: 2.5pt solid #111; padding: 0.5mm 0 0.5mm 3.5mm; font-size: 9.5pt; }
+.small { font-size: 9pt; color: #333; }
+
+/* history */
+.hist { display: grid; grid-template-columns: 26mm 1fr; column-gap: 4mm; row-gap: 2.2mm; margin: 2mm 0 4mm; }
+.hist dt { font-weight: 700; font-size: 9.5pt; }
+.hist dd { margin: 0; font-size: 9.8pt; }
+
+/* figures */
+svg text { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; fill: #111; }
+.dimtext { font-size: 0.5px; }
+.dash { stroke: #333; stroke-width: 0.05; stroke-dasharray: 0.2 0.13; fill: none; }
+.outline { stroke: #111; stroke-width: 0.06; stroke-linejoin: round; }
+.mark { stroke: #111; stroke-width: 0.045; fill: none; }
+.label { font-family: Rockwell, Georgia, serif; font-weight: 700; font-size: 1px; }
+.fA { fill: #F4C7C3; } .fB { fill: #C5D5F0; } .fC { fill: #C8E6D3; } .fD { fill: #F8DDB4; }
+.fE { fill: #DDCDEE; } .fF { fill: #F6EAB0; } .fG { fill: #C2E4EA; }
+.gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm 6mm; }
+.gallery.three { grid-template-columns: 1fr 1fr 1fr; }
+figure { margin: 0; border: 0.6pt solid #999; border-radius: 1.5mm; padding: 2.5mm 3mm; display: flex; flex-direction: column; align-items: center; gap: 1.5mm; break-inside: avoid; }
+figcaption { align-self: stretch; font-size: 8.8pt; line-height: 1.3; }
+figcaption b { font-family: Rockwell, Georgia, serif; font-size: 10pt; display: block; }
+
+/* tables */
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 0.8pt solid #111; padding: 1.8mm 2.5mm; vertical-align: top; text-align: left; }
+th { font-size: 8.5pt; letter-spacing: .06em; text-transform: uppercase; background: #EEF0F3; }
+.worktable td { height: 23mm; }
+.worktable td.piece { width: 26mm; font-weight: 700; vertical-align: middle; }
+.ans { display: flex; justify-content: flex-end; align-items: flex-end; height: 100%; font-size: 9.5pt; }
+.cell { display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
+.cell .lbl { font-size: 7.5pt; color: #666; text-transform: uppercase; letter-spacing: .06em; }
+.sumtable td { height: 10mm; vertical-align: middle; }
+.sumtable td.blank { width: 34mm; }
+
+/* questions */
+.qs { list-style: none; padding: 0; counter-reset: q; margin: 0; }
+.qs > li { counter-increment: q; display: grid; grid-template-columns: 7mm 1fr; margin-bottom: 3.5mm; break-inside: avoid; }
+.qs > li::before { content: counter(q) "."; font-weight: 700; }
+.lines { margin-top: 1.5mm; background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 7.2mm, #9aa0a8 7.2mm, #9aa0a8 7.5mm); }
+.l2 { height: 15mm; } .l3 { height: 22.5mm; } .l4 { height: 30mm; } .l5 { height: 37.5mm; }
+.blank { display: inline-block; min-width: 22mm; border-bottom: 0.8pt solid #111; height: 1.1em; vertical-align: baseline; }
+
+.ideas { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm 5mm; }
+.idea { border: 0.6pt solid #999; border-radius: 1.5mm; padding: 2.5mm 3mm; break-inside: avoid; }
+.idea .chk { display: inline-block; width: 3.2mm; height: 3.2mm; border: 0.8pt solid #111; margin-right: 1.5mm; vertical-align: -0.4mm; }
+.idea p { font-size: 9.3pt; margin-bottom: 1mm; }
+.idea .lines { height: 22.5mm; }
+
+.two { display: grid; grid-template-columns: auto 1fr; gap: 6mm; align-items: start; }
+
+/* cutout */
+.cut-wrap { display: flex; justify-content: center; margin: 8mm 0 6mm; }
+.cutsvg { width: 10cm; height: 10cm; overflow: visible; }
+.cutline { stroke: #111; stroke-width: 0.05; fill: none; stroke-dasharray: 0.25 0.12; }
+
+/* answer key */
+.key h3 { margin: 3.5mm 0 1.2mm; }
+.key td { padding: 1.3mm 2.5mm; font-size: 9.5pt; }
+.key td.n { text-align: right; font-variant-numeric: tabular-nums; }
+.key ul { font-size: 9.6pt; }
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1: cover + history ============ -->
+<section class="page">
+  <div class="nameline"><span>Name:</span><span>Class:</span><span>Date:</span></div>
+  <div class="eyebrow">Geometry worksheet · Perimeter, area, congruence &amp; similarity</div>
+  <h1>Tangram Geometry Lab</h1>
+  <p style="font-size:11.5pt;margin-top:2mm">Seven flat pieces are cut from one 10&nbsp;cm square. You will measure them, compare them, and prove that no area is lost when the square is taken apart.</p>
+
+  <div class="two" style="margin:4mm 0 3mm">
+    <svg viewBox="-0.3 -0.3 10.6 10.6" style="width:52mm;height:52mm" aria-label="Assembled tangram">
+      <polygon class="fA outline" points="0,0 10,0 5,5"/>
+      <polygon class="fB outline" points="0,0 5,5 0,10"/>
+      <polygon class="fC outline" points="10,5 10,10 5,10"/>
+      <polygon class="fD outline" points="10,0 10,5 7.5,2.5"/>
+      <polygon class="fF outline" points="5,5 7.5,2.5 10,5 7.5,7.5"/>
+      <polygon class="fE outline" points="5,5 7.5,7.5 2.5,7.5"/>
+      <polygon class="fG outline" points="0,10 2.5,7.5 7.5,7.5 5,10"/>
+      <text class="label" x="5" y="2.2" text-anchor="middle">A</text>
+      <text class="label" x="1.7" y="5.35" text-anchor="middle">B</text>
+      <text class="label" x="8.4" y="8.75" text-anchor="middle">C</text>
+      <text class="label" x="9.1" y="2.85" text-anchor="middle">D</text>
+      <text class="label" x="5" y="7.05" text-anchor="middle">E</text>
+      <text class="label" x="7.5" y="5.35" text-anchor="middle">F</text>
+      <text class="label" x="3.75" y="9.1" text-anchor="middle">G</text>
+    </svg>
+    <div>
+      <h3 style="margin-bottom:1.5mm">What you will do</h3>
+      <ul>
+        <li><b>Part A:</b> find the perimeter and area of each piece.</li>
+        <li><b>Part B:</b> identify congruent and similar figures.</li>
+        <li><b>Part C:</b> find the side, perimeter and area of the whole square.</li>
+        <li><b>Part D:</b> show that the seven areas add up to the area of the square.</li>
+        <li><b>Part E:</b> investigate more patterns.</li>
+      </ul>
+      <p class="small"><b>You need:</b> a pencil, a ruler, a calculator and scissors. Round answers to 2 decimal places.</p>
+    </div>
+  </div>
+
+  <h2>A short history of the tangram</h2>
+  <p>The tangram is a dissection puzzle: a square cut into seven pieces called <i>tans</i>. The rules are simple. Use all seven pieces, lay them flat, and do not let them overlap. People have built thousands of silhouettes this way: animals, people, boats, letters and numbers.</p>
+  <dl class="hist">
+    <dt>Song dynasty</dt><dd>Historians often trace the idea to <i>yanjitu</i>, sets of banquet tables described by the scholar Huang Bosi that could be pushed together into different shapes. A later Ming-dynasty version used triangular "butterfly" tables.</dd>
+    <dt>c. 1800</dt><dd>The puzzle appears in China as <i>qīqiǎobǎn</i>, "seven boards of skill." The oldest surviving tangram books were printed around 1813.</dd>
+    <dt>1815–1820</dt><dd>Trading ships carried tangram sets to America and Europe. A "tangram craze" swept Europe around 1817–1818, with puzzle books printed in many languages.</dd>
+    <dt>Mid-1800s</dt><dd>The English word <i>tangram</i> appears. Nobody is sure where it comes from.</dd>
+    <dt>1903</dt><dd>Puzzle maker Sam Loyd published <i>The Eighth Book of Tan</i>, claiming the puzzle was 4,000 years old and invented by a god named Tan. Loyd made the whole story up, but the myth spread for decades.</dd>
+    <dt>1942</dt><dd>Mathematicians Fu Traing Wang and Chuan-Chih Hsiung proved that exactly 13 <i>convex</i> shapes (shapes with no dents) can be made from the seven tans.</dd>
+  </dl>
+  <p class="note">Every tangram piece is built from the same right isosceles triangle. That makes the tangram a perfect tool for studying area, perimeter, angles and similarity.</p>
+</section>
+
+<!-- ============ PAGE 2: the pieces ============ -->
+<section class="page">
+  <div class="runhead"><b>Tangram Geometry Lab</b><span>The seven pieces</span></div>
+  <h2>Meet the pieces</h2>
+  <p>All figures are drawn at the same scale (smaller than real size). Lengths are rounded to 2 decimal places. Dashed lines show a height or diagonal. A small square marks a right angle. All angles in the pieces are 45°, 90° or 135°.</p>
+
+  <div class="gallery" style="margin-bottom:4mm">
+    <figure>
+      <svg viewBox="-1.4 -0.9 12.8 7.4" style="width:79mm;height:45.7mm">
+        <polygon class="fA outline" points="0,5 10,5 5,0"/>
+        <polyline class="mark" points="4.65,0.35 5,0.7 5.35,0.35"/>
+        <line class="dash" x1="5" y1="0.7" x2="5" y2="5"/>
+        <text class="dimtext" x="5.2" y="3.2">h = 5 cm</text>
+        <text class="dimtext" x="5" y="5.75" text-anchor="middle">10 cm</text>
+        <text class="dimtext" x="1.6" y="2.2" text-anchor="end">7.07 cm</text>
+        <text class="dimtext" x="8.4" y="2.2">7.07 cm</text>
+      </svg>
+      <figcaption><b>A · Large triangle</b>Legs 7.07 cm, hypotenuse 10 cm, height to the hypotenuse 5 cm. Angles 45°, 45°, 90°.</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="-1.4 -0.9 12.8 7.4" style="width:79mm;height:45.7mm">
+        <polygon class="fB outline" points="0,5 10,5 5,0"/>
+        <polyline class="mark" points="4.65,0.35 5,0.7 5.35,0.35"/>
+        <line class="dash" x1="5" y1="0.7" x2="5" y2="5"/>
+        <text class="dimtext" x="5.2" y="3.2">h = 5 cm</text>
+        <text class="dimtext" x="5" y="5.75" text-anchor="middle">10 cm</text>
+        <text class="dimtext" x="1.6" y="2.2" text-anchor="end">7.07 cm</text>
+        <text class="dimtext" x="8.4" y="2.2">7.07 cm</text>
+      </svg>
+      <figcaption><b>B · Large triangle</b>Legs 7.07 cm, hypotenuse 10 cm, height to the hypotenuse 5 cm. Angles 45°, 45°, 90°.</figcaption>
+    </figure>
+  </div>
+
+  <div class="gallery three" style="margin-bottom:4mm">
+    <figure>
+      <svg viewBox="-1.9 -0.5 9.4 6.4" style="width:58mm;height:39.5mm">
+        <polygon class="fC outline" points="0,0 0,5 5,5"/>
+        <polyline class="mark" points="0,4.6 0.4,4.6 0.4,5"/>
+        <text class="dimtext" x="-0.2" y="2.65" text-anchor="end">5 cm</text>
+        <text class="dimtext" x="2.5" y="5.7" text-anchor="middle">5 cm</text>
+        <text class="dimtext" x="2.85" y="2.3">7.07 cm</text>
+      </svg>
+      <figcaption><b>C · Medium triangle</b>Legs 5 cm, hypotenuse 7.07 cm. Angles 45°, 45°, 90°.</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="-1.6 -0.5 8.2 3.9" style="width:50.6mm;height:24mm">
+        <polygon class="fD outline" points="0,2.5 5,2.5 2.5,0"/>
+        <polyline class="mark" points="2.2,0.3 2.5,0.6 2.8,0.3"/>
+        <line class="dash" x1="2.5" y1="0.6" x2="2.5" y2="2.5"/>
+        <text class="dimtext" x="2.65" y="1.9">2.5</text>
+        <text class="dimtext" x="2.5" y="3.2" text-anchor="middle">5 cm</text>
+        <text class="dimtext" x="0.95" y="1" text-anchor="end">3.54 cm</text>
+        <text class="dimtext" x="4.05" y="1">3.54 cm</text>
+      </svg>
+      <figcaption><b>D · Small triangle</b>Legs 3.54 cm, hypotenuse 5 cm, height to the hypotenuse 2.5 cm.</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="-1.6 -0.5 8.2 3.9" style="width:50.6mm;height:24mm">
+        <polygon class="fE outline" points="0,2.5 5,2.5 2.5,0"/>
+        <polyline class="mark" points="2.2,0.3 2.5,0.6 2.8,0.3"/>
+        <line class="dash" x1="2.5" y1="0.6" x2="2.5" y2="2.5"/>
+        <text class="dimtext" x="2.65" y="1.9">2.5</text>
+        <text class="dimtext" x="2.5" y="3.2" text-anchor="middle">5 cm</text>
+        <text class="dimtext" x="0.95" y="1" text-anchor="end">3.54 cm</text>
+        <text class="dimtext" x="4.05" y="1">3.54 cm</text>
+      </svg>
+      <figcaption><b>E · Small triangle</b>Legs 3.54 cm, hypotenuse 5 cm, height to the hypotenuse 2.5 cm.</figcaption>
+    </figure>
+  </div>
+
+  <div class="gallery">
+    <figure>
+      <svg viewBox="-2.4 -0.5 7.9 5" style="width:48.7mm;height:30.8mm">
+        <rect class="fF outline" x="0" y="0" width="3.536" height="3.536"/>
+        <line class="dash" x1="0" y1="3.536" x2="3.536" y2="0"/>
+        <text class="dimtext" x="1.95" y="1.55">d = 5</text>
+        <text class="dimtext" x="1.768" y="4.2" text-anchor="middle">3.54 cm</text>
+        <text class="dimtext" x="-0.2" y="1.9" text-anchor="end">3.54 cm</text>
+        <polyline class="mark" points="0,3.136 0.4,3.136 0.4,3.536"/>
+      </svg>
+      <figcaption><b>F · Square</b>All sides 3.54 cm. Diagonal 5 cm. Four 90° angles.</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="-1.6 -0.9 10.8 4.2" style="width:66.6mm;height:25.9mm">
+        <polygon class="fG outline" points="0,2.5 5,2.5 7.5,0 2.5,0"/>
+        <line class="dash" x1="2.5" y1="0" x2="2.5" y2="2.5"/>
+        <polyline class="mark" points="2.5,2.15 2.85,2.15 2.85,2.5"/>
+        <text class="dimtext" x="2.65" y="1.4">h = 2.5 cm</text>
+        <text class="dimtext" x="2.5" y="3.15" text-anchor="middle">5 cm</text>
+        <text class="dimtext" x="5" y="-0.25" text-anchor="middle">5 cm</text>
+        <text class="dimtext" x="0.95" y="1" text-anchor="end">3.54 cm</text>
+        <text class="dimtext" x="6.55" y="1.95">3.54 cm</text>
+        <text class="dimtext" x="0.55" y="2.35" style="font-size:.38px">45°</text>
+        <text class="dimtext" x="4.35" y="2.35" style="font-size:.38px">135°</text>
+      </svg>
+      <figcaption><b>G · Parallelogram</b>Long sides 5 cm, short sides 3.54 cm, height 2.5 cm (to the 5 cm base). Angles 45°, 135°, 45°, 135°.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ PAGE 3: Part A ============ -->
+<section class="page">
+  <div class="runhead"><b>Tangram Geometry Lab</b><span>Part A</span></div>
+  <h2>Part A · Perimeter and area of each piece</h2>
+  <p><b>Perimeter</b> is the distance around a shape: add all its side lengths. Use these area formulas:</p>
+  <div class="box" style="margin-bottom:3.5mm">
+    <span class="mono">Triangle: A = ½ × base × height</span> (in a right triangle the two legs can be the base and height)<br>
+    <span class="mono">Square: A = side × side</span> &nbsp;&nbsp;&nbsp; <span class="mono">Parallelogram: A = base × height</span>
+  </div>
+  <table class="worktable">
+    <thead><tr><th>Piece</th><th>Perimeter: show your work</th><th>Area: show your work</th></tr></thead>
+    <tbody>
+      <tr><td class="piece">A<br><span class="small" style="font-weight:400">Large triangle</span></td><td><div class="ans">P = ________ cm</div></td><td><div class="ans">A = ________ cm²</div></td></tr>
+      <tr><td class="piece">B<br><span class="small" style="font-weight:400">Large triangle</span></td><td><div class="ans">P = ________ cm</div></td><td><div class="ans">A = ________ cm²</div></td></tr>
+      <tr><td class="piece">C<br><span class="small" style="font-weight:400">Medium triangle</span></td><td><div class="ans">P = ________ cm</div></td><td><div class="ans">A = ________ cm²</div></td></tr>
+      <tr><td class="piece">D<br><span class="small" style="font-weight:400">Small triangle</span></td><td><div class="ans">P = ________ cm</div></td><td><div class="ans">A = ________ cm²</div></td></tr>
+      <tr><td class="piece">E<br><span class="small" style="font-weight:400">Small triangle</span></td><td><div class="ans">P = ________ cm</div></td><td><div class="ans">A = ________ cm²</div></td></tr>
+      <tr><td class="piece">F<br><span class="small" style="font-weight:400">Square</span></td><td><div class="ans">P = ________ cm</div></td><td><div class="ans">A = ________ cm²</div></td></tr>
+      <tr><td class="piece">G<br><span class="small" style="font-weight:400">Parallelogram</span></td><td><div class="ans">P = ________ cm</div></td><td><div class="ans">A = ________ cm²</div></td></tr>
+    </tbody>
+  </table>
+  <p class="note" style="margin-top:3.5mm">Tip: 3.54 × 3.54 = 12.53, not 12.5, because 3.54 is a rounded number. Using the dashed heights on page 2 avoids this rounding problem.</p>
+</section>
+
+<!-- ============ PAGE 4: Part B ============ -->
+<section class="page">
+  <div class="runhead"><b>Tangram Geometry Lab</b><span>Part B</span></div>
+  <h2>Part B · Congruent and similar figures</h2>
+  <div class="box" style="margin-bottom:4mm">
+    <b>Congruent</b> figures have exactly the same shape <i>and</i> size: one fits perfectly on top of the other.<br>
+    <b>Similar</b> figures have the same shape (equal angles, sides in the same ratio) but can be different sizes.<br>
+    Every pair of congruent figures is also similar.
+  </div>
+  <ol class="qs">
+    <li><div>Which pairs of pieces are congruent? Explain how you know.<div class="lines l3"></div></div></li>
+    <li><div>Which pieces are similar to each other? List every group and explain.<div class="lines l3"></div></div></li>
+    <li><div>Find the <b>scale factor</b> between the triangles. Divide matching sides (for example, hypotenuse ÷ hypotenuse).
+      <div style="margin-top:3mm;display:grid;gap:3.5mm">
+        <span>Small triangle → medium triangle: &nbsp;<span class="blank"></span></span>
+        <span>Medium triangle → large triangle: &nbsp;<span class="blank"></span></span>
+        <span>Small triangle → large triangle: &nbsp;&nbsp;&nbsp;<span class="blank"></span></span>
+      </div></div></li>
+    <li><div>Compare the areas of the small, medium and large triangles. When the side lengths are multiplied by a scale factor <i>k</i>, what happens to the area?<div class="lines l4"></div></div></li>
+    <li><div>The medium triangle C, the square F and the parallelogram G all have the same area. Are any of them congruent? Are any of them similar? Explain.<div class="lines l3"></div></div></li>
+  </ol>
+</section>
+
+<!-- ============ PAGE 5: Parts C and D ============ -->
+<section class="page">
+  <div class="runhead"><b>Tangram Geometry Lab</b><span>Parts C and D</span></div>
+  <h2>Part C · The completed square</h2>
+  <div class="two" style="margin-bottom:5mm">
+    <svg viewBox="-0.4 -0.4 10.8 10.8" style="width:55mm;height:55mm">
+      <polygon class="fA outline" points="0,0 10,0 5,5"/>
+      <polygon class="fB outline" points="0,0 5,5 0,10"/>
+      <polygon class="fC outline" points="10,5 10,10 5,10"/>
+      <polygon class="fD outline" points="10,0 10,5 7.5,2.5"/>
+      <polygon class="fF outline" points="5,5 7.5,2.5 10,5 7.5,7.5"/>
+      <polygon class="fE outline" points="5,5 7.5,7.5 2.5,7.5"/>
+      <polygon class="fG outline" points="0,10 2.5,7.5 7.5,7.5 5,10"/>
+      <text class="label" x="5" y="2.2" text-anchor="middle">A</text>
+      <text class="label" x="1.7" y="5.35" text-anchor="middle">B</text>
+      <text class="label" x="8.4" y="8.75" text-anchor="middle">C</text>
+      <text class="label" x="9.1" y="2.85" text-anchor="middle">D</text>
+      <text class="label" x="5" y="7.05" text-anchor="middle">E</text>
+      <text class="label" x="7.5" y="5.35" text-anchor="middle">F</text>
+      <text class="label" x="3.75" y="9.1" text-anchor="middle">G</text>
+    </svg>
+    <ol class="qs">
+      <li><div>Which piece edges make up the top side of the square? Which make up the right side? Use them to find the side length.<div class="lines l2"></div><div style="margin-top:2mm">Side length = <span class="blank"></span> cm</div></div></li>
+      <li><div>Find the perimeter of the square. Show your work.<div style="margin-top:3mm">Perimeter = <span class="blank"></span> cm</div></div></li>
+      <li><div>Find the area of the square. Show your work.<div style="margin-top:3mm">Area = <span class="blank"></span> cm²</div></div></li>
+    </ol>
+  </div>
+
+  <h2>Part D · Do the pieces add up?</h2>
+  <p>When you cut a shape into pieces, no area is created or lost. Copy your areas from Part A, add them, and compare the total with the area of the square from Part C. Then write each piece as a fraction of the whole square.</p>
+  <table class="sumtable">
+    <thead><tr><th>Piece</th><th>Area (cm²)</th><th>Fraction of the square</th></tr></thead>
+    <tbody>
+      <tr><td>A · Large triangle</td><td></td><td></td></tr>
+      <tr><td>B · Large triangle</td><td></td><td></td></tr>
+      <tr><td>C · Medium triangle</td><td></td><td></td></tr>
+      <tr><td>D · Small triangle</td><td></td><td></td></tr>
+      <tr><td>E · Small triangle</td><td></td><td></td></tr>
+      <tr><td>F · Square</td><td></td><td></td></tr>
+      <tr><td>G · Parallelogram</td><td></td><td></td></tr>
+      <tr><td><b>Total</b></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:4mm">Complete the statement:</p>
+  <p class="mono" style="font-size:10.5pt">____ + ____ + ____ + ____ + ____ + ____ + ____ = ______ cm² &nbsp;= area of the square</p>
+  <p style="margin-top:3mm">Does the total equal the area of the square? Explain why this must be true.</p>
+  <div class="lines l2"></div>
+</section>
+
+<!-- ============ PAGE 6: Part E ============ -->
+<section class="page">
+  <div class="runhead"><b>Tangram Geometry Lab</b><span>Part E</span></div>
+  <h2>Part E · More things to notice</h2>
+  <p>Tick and complete <b>at least two</b> of these. Use your cut-out tangram from the last student page.</p>
+  <div class="ideas">
+    <div class="idea"><h3><span class="chk"></span>Area is kept, perimeter is not</h3><p>Add up the perimeters of all seven pieces. Compare the total with the square's perimeter. Why is the total so much bigger?</p><div class="lines"></div></div>
+    <div class="idea"><h3><span class="chk"></span>The small triangle as a unit</h3><p>How many small triangles would cover each piece? How many would cover the whole square?</p><div class="lines"></div></div>
+    <div class="idea"><h3><span class="chk"></span>Same area, different shapes</h3><p>Build a rectangle, a triangle and a parallelogram using all seven pieces. Each has an area of 100 cm². Do they have the same perimeter?</p><div class="lines"></div></div>
+    <div class="idea"><h3><span class="chk"></span>Perimeter twins</h3><p>Two different pieces have the same area <i>and</i> the same perimeter. Which ones? Are they congruent?</p><div class="lines"></div></div>
+    <div class="idea"><h3><span class="chk"></span>Angles in 45° steps</h3><p>List every angle in all seven pieces. What do you notice? Why does this help the pieces fit together?</p><div class="lines"></div></div>
+    <div class="idea"><h3><span class="chk"></span>The piece you must flip</h3><p>Which piece cannot match its own mirror image just by sliding or turning? Try it with your cut-out pieces.</p><div class="lines"></div></div>
+    <div class="idea"><h3><span class="chk"></span>Where √2 hides</h3><p>Several lengths are multiples of √2 ≈ 1.414. Could every side of every piece be a whole number of centimetres? Why or why not?</p><div class="lines"></div></div>
+    <div class="idea"><h3><span class="chk"></span>The 13 convex shapes</h3><p>Only 13 convex shapes can be made from all seven pieces. Sketch as many as you can find on the back of this page.</p><div class="lines"></div></div>
+  </div>
+</section>
+
+<!-- ============ PAGE 7: cut-out ============ -->
+<section class="page">
+  <div class="runhead"><b>Tangram Geometry Lab</b><span>Cut-out tangram</span></div>
+  <h2>Make your own tangram</h2>
+  <p>Print this page at <b>Actual size (100%)</b>, not "Fit to page." Check with a ruler: the outside of the square should measure exactly 10 cm. Then cut along every line to make your seven pieces.</p>
+  <div class="cut-wrap">
+    <svg class="cutsvg" viewBox="0 0 10 10" width="10cm" height="10cm">
+      <polygon class="fA" points="0,0 10,0 5,5"/>
+      <polygon class="fB" points="0,0 5,5 0,10"/>
+      <polygon class="fC" points="10,5 10,10 5,10"/>
+      <polygon class="fD" points="10,0 10,5 7.5,2.5"/>
+      <polygon class="fF" points="5,5 7.5,2.5 10,5 7.5,7.5"/>
+      <polygon class="fE" points="5,5 7.5,7.5 2.5,7.5"/>
+      <polygon class="fG" points="0,10 2.5,7.5 7.5,7.5 5,10"/>
+      <rect x="0" y="0" width="10" height="10" fill="none" stroke="#111" stroke-width="0.04"/>
+      <polyline class="cutline" points="0,0 7.5,7.5"/>
+      <polyline class="cutline" points="10,0 5,5"/>
+      <polyline class="cutline" points="0,10 2.5,7.5 7.5,7.5 10,5 7.5,2.5"/>
+      <polyline class="cutline" points="5,5 2.5,7.5"/>
+      <polyline class="cutline" points="5,10 7.5,7.5"/>
+      <text class="label" x="5" y="2.2" text-anchor="middle" style="font-size:.8px">A</text>
+      <text class="label" x="1.7" y="5.3" text-anchor="middle" style="font-size:.8px">B</text>
+      <text class="label" x="8.4" y="8.7" text-anchor="middle" style="font-size:.8px">C</text>
+      <text class="label" x="9.1" y="2.8" text-anchor="middle" style="font-size:.8px">D</text>
+      <text class="label" x="5" y="7" text-anchor="middle" style="font-size:.8px">E</text>
+      <text class="label" x="7.5" y="5.3" text-anchor="middle" style="font-size:.8px">F</text>
+      <text class="label" x="3.75" y="9.05" text-anchor="middle" style="font-size:.8px">G</text>
+    </svg>
+  </div>
+  <div class="box">
+    <h3 style="margin-bottom:1.5mm">Check your measurements</h3>
+    <p class="small" style="margin:0">After cutting, measure the pieces with your ruler. Do your measurements match the numbers on page 2? Record any piece that is off by more than 1 mm and explain why small differences can happen.</p>
+    <div class="lines l2"></div>
+  </div>
+  <p class="small" style="margin-top:3mm">Tip: glue this page onto card stock before cutting to make sturdier pieces.</p>
+</section>
+
+<!-- ============ PAGE 8: Answer key ============ -->
+<section class="page key">
+  <div class="runhead"><b>Tangram Geometry Lab</b><span>Teacher answer key</span></div>
+  <h2>Answer key</h2>
+  <p class="small">Exact values use √2 ≈ 1.4142. Accept decimal answers within about 0.05 of these, since students work from rounded lengths.</p>
+
+  <h3>Part A · Perimeter and area</h3>
+  <table>
+    <thead><tr><th>Piece</th><th>Perimeter work</th><th>Perimeter</th><th>Area work</th><th>Area</th></tr></thead>
+    <tbody>
+      <tr><td>A, B · Large</td><td>7.07 + 7.07 + 10</td><td class="n"><b>24.14 cm</b><br><span class="small">10 + 10√2</span></td><td>½ × 10 × 5</td><td class="n"><b>25 cm²</b></td></tr>
+      <tr><td>C · Medium</td><td>5 + 5 + 7.07</td><td class="n"><b>17.07 cm</b><br><span class="small">10 + 5√2</span></td><td>½ × 5 × 5</td><td class="n"><b>12.5 cm²</b></td></tr>
+      <tr><td>D, E · Small</td><td>3.54 + 3.54 + 5</td><td class="n"><b>12.07 cm</b><br><span class="small">5 + 5√2</span></td><td>½ × 5 × 2.5</td><td class="n"><b>6.25 cm²</b></td></tr>
+      <tr><td>F · Square</td><td>4 × 3.54</td><td class="n"><b>14.14 cm</b><br><span class="small">10√2</span></td><td>(5√2/2)² = 50/4, or ½ × 5²</td><td class="n"><b>12.5 cm²</b></td></tr>
+      <tr><td>G · Parallelogram</td><td>5 + 3.54 + 5 + 3.54</td><td class="n"><b>17.07 cm</b><br><span class="small">10 + 5√2</span></td><td>5 × 2.5</td><td class="n"><b>12.5 cm²</b></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Part B · Congruent and similar figures</h3>
+  <ol>
+    <li>A and B are congruent (legs 7.07 cm, hypotenuse 10 cm). D and E are congruent (legs 3.54 cm, hypotenuse 5 cm). These are the only congruent pairs.</li>
+    <li>All five triangles (A, B, C, D, E) are similar: each is a right isosceles triangle with angles 45°, 45°, 90°. F and G are not similar to any other piece.</li>
+    <li>Small → medium: 7.07 ÷ 5 ≈ <b>1.41</b> (√2). Medium → large: 10 ÷ 7.07 ≈ <b>1.41</b> (√2). Small → large: 10 ÷ 5 = <b>2</b>.</li>
+    <li>Areas are 6.25, 12.5 and 25 cm², a ratio of 1 : 2 : 4. The area is multiplied by <i>k</i>². With <i>k</i> = √2 the area doubles; with <i>k</i> = 2 it is multiplied by 4.</li>
+    <li>No. They have equal areas but different shapes and angles, so they are neither congruent nor similar. Equal area does not mean congruent.</li>
+  </ol>
+
+  <h3>Part C · The completed square</h3>
+  <p>The top side is the hypotenuse of A: <b>10 cm</b>. The right side is D's hypotenuse (5 cm) plus one leg of C (5 cm) = 10 cm. Perimeter = 4 × 10 = <b>40 cm</b>. Area = 10 × 10 = <b>100 cm²</b>.</p>
+
+  <h3>Part D · Do the pieces add up?</h3>
+  <p>25 + 25 + 12.5 + 6.25 + 6.25 + 12.5 + 12.5 = <b>100 cm²</b> = area of the square. Fractions: A and B are ¼ each; C, F and G are ⅛ each; D and E are 1/16 each. ¼ + ¼ + ⅛ + ⅛ + ⅛ + 1/16 + 1/16 = 16/16 = 1. The pieces cover the square exactly once with no gaps or overlaps, so their areas must add to the square's area.</p>
+</section>
+
+<!-- ============ PAGE 9: Answer key, Part E ============ -->
+<section class="page key">
+  <div class="runhead"><b>Tangram Geometry Lab</b><span>Teacher answer key</span></div>
+  <h3 style="margin-top:0">Part E · More things to notice</h3>
+  <ul>
+    <li><b>Area is kept, perimeter is not:</b> total ≈ 2(24.14) + 17.07 + 2(12.07) + 14.14 + 17.07 = <b>120.71 cm</b>, about three times 40 cm. Inside edges belong to two pieces and get counted twice, but they are not on the outside of the square.</li>
+    <li><b>The small triangle as a unit:</b> large = 4, medium = 2, square = 2, parallelogram = 2, small = 1. The whole square is 4 + 4 + 2 + 1 + 1 + 2 + 2 = <b>16</b> small triangles, which matches 100 ÷ 6.25 = 16.</li>
+    <li><b>Same area, different shapes:</b> no. Shapes with the same area can have different perimeters. Of all rectangles with a given area, the square has the smallest perimeter.</li>
+    <li><b>Perimeter twins:</b> the medium triangle C and the parallelogram G (12.5 cm² and 17.07 cm each). They are not congruent.</li>
+    <li><b>Angles in 45° steps:</b> every angle is 45°, 90° or 135°. Angles meeting at a point must total 360° (or 180° along a straight edge), and multiples of 45° combine easily to make those totals.</li>
+    <li><b>The piece you must flip:</b> the parallelogram G. It has no line of symmetry, so its mirror image can only be matched by flipping it over. Every other piece has a line of symmetry.</li>
+    <li><b>Where √2 hides:</b> no. In a right isosceles triangle the hypotenuse is always √2 times a leg, and √2 is irrational, so the legs and the hypotenuse can never both be whole numbers.</li>
+    <li><b>The 13 convex shapes:</b> 1 triangle, 6 quadrilaterals, 2 pentagons and 4 hexagons (Wang and Hsiung, 1942).</li>
+  </ul>
+  <h3>Cut-out page</h3>
+  <p>Small differences (up to about 1 mm) come from printer scaling, cutting accuracy and ruler precision. If every piece is off by the same proportion, the page was probably printed with "Fit to page" turned on.</p>
+</section>
+
+</body>
+</html>
