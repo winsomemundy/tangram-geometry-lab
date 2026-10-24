@@ -38,6 +38,9 @@ html { scroll-padding-top: 72px; }
 .lab-header__script { font-family: var(--font-script); font-size: clamp(2.2rem, 5vw, 3rem); line-height: 1.1; }
 .lab-header svg { width: 100%; height: auto; }
 .lab-meta { display: flex; flex-wrap: wrap; gap: 6px 24px; font-size: 0.95rem; }
+.lab-download { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-top: 6px !important; }
+.lab-download span { font-size: 0.9rem; }
+@media (max-width: 560px) { .lab-download .wm-btn { flex: 1 1 auto; justify-content: center; } }
 @media (max-width: 760px) { .lab-header { grid-template-columns: 1fr; } .lab-header svg { max-width: 250px; } }
 
 .lab-section { display: grid; gap: 18px; }
@@ -145,6 +148,10 @@ svg .mark { stroke: var(--ink); stroke-width: 0.04; fill: none; }
         <span><b>You need:</b> a calculator, a pencil, and a paper tangram if you have one</span>
         <span><b>Round to:</b> 2 decimal places</span>
       </div>
+      <p class="lab-download">
+        <a class="wm-btn wm-btn--ghost button" href="https://tangram.winsomemundy.com/tangram-geometry-lab-worksheet.pdf" download="Tangram Geometry Lab Worksheet.pdf">Download the printable worksheet</a>
+        <span>PDF · 9 pages · 430 KB</span>
+      </p>
     </div>
     <svg viewBox="-0.3 -0.3 10.6 10.6" role="img" aria-label="The seven tangram pieces assembled into a 10 cm square">
       <polygon class="piece" style="fill:var(--pA)" points="0,0 10,0 5,5"/>

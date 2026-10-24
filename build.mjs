@@ -1,4 +1,4 @@
-// Assembles the deployable tool in dist/: the page and the design system's
+// Assembles the deployable tool in dist/: the page, the printable worksheet PDF and the design system's
 // stylesheets from the pinned @winsomemundy/design-system package.
 // DS_DIR=<folder> builds against a local design-system checkout instead.
 import { cpSync, mkdirSync, rmSync } from 'node:fs'
@@ -11,6 +11,7 @@ rmSync(out, { recursive: true, force: true })
 mkdirSync(join(out, 'ds'), { recursive: true })
 
 cpSync('index.html', join(out, 'index.html'))
+cpSync('Tangram Geometry Lab Worksheet.pdf', join(out, 'tangram-geometry-lab-worksheet.pdf'))
 cpSync(join(ds, 'tokens.css'), join(out, 'ds', 'tokens.css'))
 cpSync(join(ds, 'components', 'bundle.css'), join(out, 'ds', 'bundle.css'))
 
