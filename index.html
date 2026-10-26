@@ -100,6 +100,10 @@ svg .mark { stroke: var(--ink); stroke-width: 0.04; fill: none; }
 .wm-tool-page__main input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .wm-tool-page__main input.right { border-color: var(--violet); background: var(--violet-tint); }
 .wm-tool-page__main input.wrong { border-color: var(--alert); color: var(--alert); }
+/* A ✓ or ✗ inside the field, so right and wrong never rely on colour alone */
+.wm-tool-page__main input.right, .wm-tool-page__main input.wrong { padding-right: 28px; background-repeat: no-repeat; background-position: right 8px center; background-size: 13px; }
+.wm-tool-page__main input.right { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 8.5l4 4 8-9' fill='none' stroke='%239b7bff' stroke-width='2.4'/%3E%3C/svg%3E"); }
+.wm-tool-page__main input.wrong { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 3l10 10M13 3L3 13' fill='none' stroke='%23ff9b9b' stroke-width='2.4'/%3E%3C/svg%3E"); }
 .unit { font-size: 0.9rem; margin-left: 4px; }
 .checkrow { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 .score { font-size: 0.95rem; }
@@ -311,8 +315,8 @@ svg .mark { stroke: var(--ink); stroke-width: 0.04; fill: none; }
             <text class="dimtext" x="5" y="-0.25" text-anchor="middle">5 cm</text>
             <text class="dimtext" x="0.95" y="1" text-anchor="end">3.54 cm</text>
             <text class="dimtext" x="6.55" y="1.95">3.54 cm</text>
-            <text class="dimtext" x="0.55" y="2.35" style="font-size:.38px">45°</text>
-            <text class="dimtext" x="4.35" y="2.35" style="font-size:.38px">135°</text>
+            <text class="dimtext in" x="0.55" y="2.35" style="font-size:.4px">45°</text>
+            <text class="dimtext in" x="4.3" y="2.35" style="font-size:.4px">135°</text>
           </svg>
         </div>
         <figcaption><strong><span class="swatch" style="background:var(--pG)"></span>G · Parallelogram</strong><span>Long sides 5 cm, short sides 3.54 cm, height 2.5 cm (measured to the 5 cm base). Angles 45°, 135°, 45°, 135°.</span></figcaption>
@@ -567,6 +571,7 @@ svg .mark { stroke: var(--ink); stroke-width: 0.04; fill: none; }
       var right = 0, filled = 0;
       inputs.forEach(function (inp) {
         inp.classList.remove('right', 'wrong');
+        inp.removeAttribute('aria-invalid');
         var v = parseNum(inp.value);
         if (isNaN(v)) return;
         filled++;
@@ -574,6 +579,8 @@ svg .mark { stroke: var(--ink); stroke-width: 0.04; fill: none; }
         if (inp.dataset.frac) ok = Math.abs(v - parseFloat(inp.dataset.frac)) < 0.002;
         else ok = Math.abs(v - parseFloat(inp.dataset.answer)) <= parseFloat(inp.dataset.tol || '0.1');
         inp.classList.add(ok ? 'right' : 'wrong');
+        // Screen readers announce "invalid" on a wrong answer when the student returns to it
+        if (!ok) inp.setAttribute('aria-invalid', 'true');
         if (ok) right++;
       });
       document.getElementById(btn.dataset.check + '-score').textContent =
