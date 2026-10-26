@@ -90,7 +90,8 @@ svg .mark { stroke: var(--ink); stroke-width: 0.04; fill: none; }
 .tablewrap thead th { font-family: var(--font-display); font-size: 0.75rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); font-weight: 500; background: var(--ink); }
 .tablewrap tbody tr:last-child td { border-bottom: 0; }
 .tablewrap td.num, .tablewrap th.num { text-align: right; }
-.wm-tool-page__main input[type="text"] {
+/* :where() keeps this base style below the design system's checked-answer states */
+.wm-tool-page__main input:where([type="text"]) {
   font-family: var(--font-display); font-weight: 500; font-size: 0.95rem; font-variant-numeric: tabular-nums;
   color: var(--text); background: var(--ink);
   border: var(--hairline) solid var(--line); border-bottom-color: var(--muted); border-radius: 0;
@@ -98,12 +99,6 @@ svg .mark { stroke: var(--ink); stroke-width: 0.04; fill: none; }
 }
 .wm-tool-page__main input::placeholder { color: var(--muted); opacity: .7; }
 .wm-tool-page__main input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-.wm-tool-page__main input.right { border-color: var(--violet); background: var(--violet-tint); }
-.wm-tool-page__main input.wrong { border-color: var(--alert); color: var(--alert); }
-/* A ✓ or ✗ inside the field, so right and wrong never rely on colour alone */
-.wm-tool-page__main input.right, .wm-tool-page__main input.wrong { padding-right: 28px; background-repeat: no-repeat; background-position: right 8px center; background-size: 13px; }
-.wm-tool-page__main input.right { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 8.5l4 4 8-9' fill='none' stroke='%239b7bff' stroke-width='2.4'/%3E%3C/svg%3E"); }
-.wm-tool-page__main input.wrong { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 3l10 10M13 3L3 13' fill='none' stroke='%23ff9b9b' stroke-width='2.4'/%3E%3C/svg%3E"); }
 .unit { font-size: 0.9rem; margin-left: 4px; }
 .checkrow { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 .score { font-size: 0.95rem; }
@@ -570,7 +565,7 @@ svg .mark { stroke: var(--ink); stroke-width: 0.04; fill: none; }
       var inputs = scope.querySelectorAll('input[data-answer], input[data-frac]');
       var right = 0, filled = 0;
       inputs.forEach(function (inp) {
-        inp.classList.remove('right', 'wrong');
+        inp.classList.remove('wm-input--right', 'wm-input--wrong');
         inp.removeAttribute('aria-invalid');
         var v = parseNum(inp.value);
         if (isNaN(v)) return;
@@ -578,7 +573,7 @@ svg .mark { stroke: var(--ink); stroke-width: 0.04; fill: none; }
         var ok;
         if (inp.dataset.frac) ok = Math.abs(v - parseFloat(inp.dataset.frac)) < 0.002;
         else ok = Math.abs(v - parseFloat(inp.dataset.answer)) <= parseFloat(inp.dataset.tol || '0.1');
-        inp.classList.add(ok ? 'right' : 'wrong');
+        inp.classList.add(ok ? 'wm-input--right' : 'wm-input--wrong');
         // Screen readers announce "invalid" on a wrong answer when the student returns to it
         if (!ok) inp.setAttribute('aria-invalid', 'true');
         if (ok) right++;
