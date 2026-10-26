@@ -1,6 +1,6 @@
 # Tangram Geometry Lab
 
-A free student tool by Winsome Mundy: measure the seven tangram pieces, compare congruent and similar figures, and prove the pieces add up to the square. Live at tangram.winsomemundy.com, linked from winsomemundy.com/#tools.
+A free student tool by Winsome Mundy: measure the seven tangram pieces, compare congruent and similar figures, and prove the pieces add up to the square. Live at tangram.winsomemundy.com, linked from winsomemundy.com/tools.
 
 Built on the Winsome Mundy design system (`@winsomemundy/design-system`, pinned in `package.json`) using its Tool Page frame and components. The lesson's own pieces (diagrams, answer tables, questions, answer key) are styled in `index.html`.
 
