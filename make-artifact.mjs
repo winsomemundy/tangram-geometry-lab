@@ -16,6 +16,9 @@ const fontLinks = head.match(/<link rel="(preconnect|stylesheet)" href="https:[^
 const ownCss = between(head, '<style>', '</style>')
 const dsCss = ['tokens.css', join('components', 'bundle.css')]
   .map(f => readFileSync(join(ds, f), 'utf8')).join('\n')
+// The artifact viewer blocks downloads, so the PDF buttons open the files on the live site in a new tab
+const artifactBody = body
+  .replace(/ download="[^"]*">Download (the [^<]*)</g, ' target="_blank" rel="noopener">Open $1 ↗<')
 
 writeFileSync('tangram-geometry-lab.html', `${title}
 ${fontLinks}
@@ -24,7 +27,7 @@ ${dsCss}
 ${ownCss}</style>
 
 <div class="wm-surface">
-${body.replace('<script>', "<script>\ndocument.documentElement.lang = 'en';")}
+${artifactBody.replace('<script>', "<script>\ndocument.documentElement.lang = 'en';")}
 </div>
 `)
 console.log('Wrote tangram-geometry-lab.html from index.html')
